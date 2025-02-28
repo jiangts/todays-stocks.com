@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
+import { sendEmail } from "@/libs/resend";
 
 // This route is used to store the leads that are generated from the landing page.
 // The API call is initiated by <ButtonLead /> component
@@ -15,15 +16,17 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Here you can add your own logic
-    // For instance, sending a welcome email (use the the sendEmail helper function from /libs/resend)
-    // For instance, saving the lead in the database (uncomment the code below)
+    const lead = await Lead.findOne({ email: body.email });
 
-    // const lead = await Lead.findOne({ email: body.email });
-
-    // if (!lead) {
-    // 	await Lead.create({ email: body.email });
-    // }
+    if (!lead) {
+      await Lead.create({ email: body.email });
+      await sendEmail({
+        to: body.email,
+        subject: "Welcome to Todays-Stocks.com",
+        text: "Welcome to ShipFast! We're excited to have you on board. We'll keep you updated with our progress. If you have any questions, feel free to reply to this email.",
+        html: "<p>Welcome to ShipFast! We're excited to have you on board. We'll keep you updated with our progress. If you have any questions, feel free to reply to this email.</p>",
+      });
+    }
 
     return NextResponse.json({});
   } catch (e) {
