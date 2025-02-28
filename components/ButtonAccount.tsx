@@ -27,7 +27,7 @@ const ButtonAccount = () => {
         "/stripe/create-portal",
         {
           returnUrl: window.location.href,
-        }
+        },
       );
 
       window.location.href = url;

@@ -47,12 +47,12 @@ export default async function Article({
       (a) =>
         a.slug !== params.articleId &&
         a.categories.some((c) =>
-          article.categories.map((c) => c.slug).includes(c.slug)
-        )
+          article.categories.map((c) => c.slug).includes(c.slug),
+        ),
     )
     .sort(
       (a, b) =>
-        new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf()
+        new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
     )
     .slice(0, 3);
 

@@ -2,28 +2,21 @@ import Link from "next/link";
 import { getSEOTags } from "@/libs/seo";
 import config from "@/config";
 
-// CHATGPT PROMPT TO GENERATE YOUR TERMS & SERVICES — replace with your own data 👇
-
-// 1. Go to https://chat.openai.com/
-// 2. Copy paste bellow
-// 3. Replace the data with your own (if needed)
-// 4. Paste the answer from ChatGPT directly in the <pre> tag below
-
 // You are an excellent lawyer.
 
 // I need your help to write a simple Terms & Services for my website. Here is some context:
-// - Website: https://shipfa.st
-// - Name: ShipFast
-// - Contact information: marc@shipfa.st
-// - Description: A JavaScript code boilerplate to help entrepreneurs launch their startups faster
-// - Ownership: when buying a package, users can download code to create apps. They own the code but they do not have the right to resell it. They can ask for a full refund within 7 day after the purchase.
+// - Website: https://todays-stocks.com
+// - Name: TodaysStocks
+// - Contact information: allan@todays-stocks.com
+// - Description: A stock research tool that allows users to get automated fundamental and technical analysis (from the news, etc) using LLMs on pre-defined sets of stocks (e.g. 25 losers or gainers of the day) or user-defined stocks and user-defined alerting criterion.
+// - Ownership: usage of tool is not to constitute financial advice, but only for informational purposes. Users change positions in stock according to their own judgement, and we are not responsible for any losses or gains that resulted from using information from our service.
 // - User data collected: name, email and payment information
 // - Non-personal data collection: web cookies
-// - Link to privacy-policy: https://shipfa.st/privacy-policy
-// - Governing Law: France
+// - Link to privacy-policy: https://todays-stocks.com/privacy-policy
+// - Governing Law: United States, California
 // - Updates to the Terms: users will be updated by email
 
-// Please write a simple Terms & Services for my site. Add the current date. Do not add or explain your reasoning. Answer:
+// Please write a simple Terms & Services for my site. Add the current date (2025-02-27)
 
 export const metadata = getSEOTags({
   title: `Terms and Conditions | ${config.appName}`,
@@ -53,44 +46,140 @@ const TOS = () => {
           Terms and Conditions for {config.appName}
         </h1>
 
-        <pre
-          className="leading-relaxed whitespace-pre-wrap"
+        <div
+          className="leading-relaxed whitespace-pre-wrap prose"
           style={{ fontFamily: "sans-serif" }}
         >
-          {`Last Updated: September 26, 2023
+          <p>
+            <strong>Last Updated: February 27, 2025</strong>
+          </p>
 
-Welcome to ShipFast!
+          <p>
+            Welcome to <strong>TodaysStocks</strong> (
+            <a href="https://todays-stocks.com" rel="noopener" target="_blank">
+              https://todays-stocks.com
+            </a>
+            ). By accessing or using our services, you agree to these Terms of
+            Service (&quot;Terms&quot;). If you do not agree, please do not use
+            our website or services.
+          </p>
 
-These Terms of Service ("Terms") govern your use of the ShipFast website at https://shipfa.st ("Website") and the services provided by ShipFast. By using our Website and services, you agree to these Terms.
+          <h2>
+            <strong>1. Overview</strong>
+          </h2>
+          <p>
+            TodaysStocks is a stock research tool that provides automated
+            fundamental and technical analysis using large language models
+            (LLMs) on pre-defined or user-defined stock sets and alerting
+            criteria.
+          </p>
 
-1. Description of ShipFast
+          <h2>
+            <strong>2. No Financial Advice</strong>
+          </h2>
+          <p>
+            TodaysStocks provides <strong>informational content only</strong>.
+            Our service does <strong>not</strong> constitute financial,
+            investment, tax, or legal advice. You acknowledge that any financial
+            decisions you make based on our content are solely your
+            responsibility, and{" "}
+            <strong>we are not liable for any losses or gains</strong> arising
+            from your use of the service.
+          </p>
 
-ShipFast is a platform that offers a JavaScript code boilerplate to assist entrepreneurs in launching their startups more efficiently.
+          <h2>
+            <strong>3. User Accounts &amp; Data Collection</strong>
+          </h2>
+          <p>
+            To access certain features, you may need to create an account and
+            provide personal information, including:
+          </p>
+          <ul>
+            <li>Name</li>
+            <li>Email</li>
+            <li>Payment information</li>
+          </ul>
+          <p>
+            We also collect non-personal data through web cookies. For more
+            details, please review our{" "}
+            <a
+              href="https://todays-stocks.com/privacy-policy"
+              rel="noopener"
+              target="_blank"
+            >
+              Privacy Policy
+            </a>
+            .
+          </p>
 
-2. Ownership and Usage Rights
+          <h2>
+            <strong>4. Payment &amp; Subscription</strong>
+          </h2>
+          <p>
+            If you purchase a subscription or service through TodaysStocks, you
+            agree to provide accurate payment information and authorize us to
+            charge you according to the selected plan. Refund policies, if
+            applicable, will be detailed on the payment page.
+          </p>
 
-When you purchase a package from ShipFast, you gain the right to download and use the code provided for creating applications. You own the code you create but do not have the right to resell it. We offer a full refund within 7 days of purchase, as specified in our refund policy.
+          <h2>
+            <strong>5. User Responsibilities</strong>
+          </h2>
+          <p>By using our service, you agree:</p>
+          <ul>
+            <li>
+              Not to use the platform for any illegal or fraudulent activities.
+            </li>
+            <li>
+              Not to attempt to manipulate, copy, or reverse-engineer our tools
+              or services.
+            </li>
+            <li>To comply with all applicable laws and regulations.</li>
+          </ul>
 
-3. User Data and Privacy
+          <h2>
+            <strong>6. Limitation of Liability</strong>
+          </h2>
+          <p>
+            To the fullest extent permitted by law,{" "}
+            <strong>
+              TodaysStocks is not responsible for any direct, indirect,
+              incidental, consequential, or punitive damages
+            </strong>{" "}
+            resulting from your use of our website or services.
+          </p>
 
-We collect and store user data, including name, email, and payment information, as necessary to provide our services. For details on how we handle your data, please refer to our Privacy Policy at https://shipfa.st/privacy-policy.
+          <h2>
+            <strong>7. Updates to These Terms</strong>
+          </h2>
+          <p>
+            We may update these Terms from time to time. If we make significant
+            changes, we will notify users via email. Continued use of our
+            services after updates constitutes acceptance of the revised Terms.
+          </p>
 
-4. Non-Personal Data Collection
+          <h2>
+            <strong>8. Governing Law</strong>
+          </h2>
+          <p>
+            These Terms are governed by the laws of the{" "}
+            <strong>United States, State of California</strong>, without regard
+            to conflict of law principles.
+          </p>
 
-We use web cookies to collect non-personal data for the purpose of improving our services and user experience.
-
-5. Governing Law
-
-These Terms are governed by the laws of France.
-
-6. Updates to the Terms
-
-We may update these Terms from time to time. Users will be notified of any changes via email.
-
-For any questions or concerns regarding these Terms of Service, please contact us at marc@shipfa.st.
-
-Thank you for using ShipFast!`}
-        </pre>
+          <h2>
+            <strong>9. Contact Information</strong>
+          </h2>
+          <p>
+            If you have any questions about these Terms, you can contact us at{" "}
+            <strong>
+              <a href="mailto:allan@todays-stocks.com" rel="noopener">
+                allan@todays-stocks.com
+              </a>
+            </strong>
+            .
+          </p>
+        </div>
       </div>
     </main>
   );

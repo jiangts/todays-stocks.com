@@ -4,7 +4,7 @@ import User from "@/models/User";
 const connectMongo = async () => {
   if (!process.env.MONGODB_URI) {
     throw new Error(
-      "Add the MONGODB_URI environment variable inside .env.local to use mongoose"
+      "Add the MONGODB_URI environment variable inside .env.local to use mongoose",
     );
   }
   return mongoose

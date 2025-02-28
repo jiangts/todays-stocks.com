@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         if (!plan) break;
 
         const customer = (await stripe.customers.retrieve(
-          customerId as string
+          customerId as string,
         )) as Stripe.Customer;
 
         let user;
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
           .object as Stripe.Subscription;
 
         const subscription = await stripe.subscriptions.retrieve(
-          stripeObject.id
+          stripeObject.id,
         );
         const user = await User.findOne({ customerId: subscription.customer });
 

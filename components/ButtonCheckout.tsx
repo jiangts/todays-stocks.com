@@ -28,7 +28,7 @@ const ButtonCheckout = ({
           successUrl: window.location.href,
           cancelUrl: window.location.href,
           mode,
-        }
+        },
       );
 
       window.location.href = url;

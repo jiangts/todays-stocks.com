@@ -10,7 +10,7 @@ export async function generateMetadata({
   params: { categoryId: string };
 }) {
   const category = categories.find(
-    (category) => category.slug === params.categoryId
+    (category) => category.slug === params.categoryId,
   );
 
   return getSEOTags({
@@ -26,15 +26,15 @@ export default async function Category({
   params: { categoryId: string };
 }) {
   const category = categories.find(
-    (category) => category.slug === params.categoryId
+    (category) => category.slug === params.categoryId,
   );
   const articlesInCategory = articles
     .filter((article) =>
-      article.categories.map((c) => c.slug).includes(category.slug)
+      article.categories.map((c) => c.slug).includes(category.slug),
     )
     .sort(
       (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
     )
     .slice(0, 3);
 

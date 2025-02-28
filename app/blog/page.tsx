@@ -6,8 +6,7 @@ import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
   title: `${config.appName} Blog`,
-  description:
-    "Learn how to ship your startup in days, not weeks",
+  description: "Learn how to ship your startup in days, not weeks",
   canonicalUrlRelative: "/blog",
 });
 
@@ -15,7 +14,7 @@ export default async function Blog() {
   const articlesToDisplay = articles
     .sort(
       (a, b) =>
-        new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf()
+        new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
     )
     .slice(0, 6);
   return (

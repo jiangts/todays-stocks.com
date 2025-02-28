@@ -28,7 +28,7 @@ export default async function Author({
     .filter((article) => article.author.slug === author.slug)
     .sort(
       (a, b) =>
-        new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf()
+        new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
     );
 
   return (
