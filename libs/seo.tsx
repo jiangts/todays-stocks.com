@@ -55,7 +55,7 @@ export const getSEOTags = ({
       // If you add an twitter-image.(jpg|jpeg|png|gif) image to the /app folder, you don't need the code below
       // images: [openGraph?.image || defaults.og.image],
       card: "summary_large_image",
-      creator: "@marc_louvion",
+      creator: "@todays_stocks",
     },
 
     // If a canonical URL is given, we add it. The metadataBase will turn the relative URL into a fully qualified URL
@@ -88,21 +88,22 @@ export const renderSchemaTags = () => {
           image: `https://${config.domainName}/icon.png`,
           url: `https://${config.domainName}/`,
           author: {
-            "@type": "Person",
-            name: "Marc Lou",
+            "@type": "Organization",
+            name: "TodaysStocks",
           },
           datePublished: "2023-08-01",
-          applicationCategory: "EducationalApplication",
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "4.8",
-            ratingCount: "12",
-          },
+          applicationCategory: "FinancialApplication",
+          // aggregateRating: {
+          //   "@type": "AggregateRating",
+          //   ratingValue: "4.8",
+          //   ratingCount: "12",
+          // },
           offers: [
             {
               "@type": "Offer",
-              price: "9.00",
+              price: "0.00",
               priceCurrency: "USD",
+              description: "Sign up for free and receive daily stock insights, news, and alerts",
             },
           ],
         }),
