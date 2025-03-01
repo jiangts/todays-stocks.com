@@ -2,13 +2,11 @@ import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/libs/next-auth";
+import { ADMINS } from "@/libs/auth";
 import config from "@/config";
 
-// This is a server-side component to ensure the user is logged in.
-// If not, it will redirect to the login page.
-// It's applied to all subpages of /dashboard in /app/dashboard/*** pages
-// You can also add custom static UI elements like a Navbar, Sidebar, Footer, etc..
-// See https://shipfa.st/docs/tutorials/private-page
+// This is a server-side component to ensure the user is an admin.
+// If not, it will redirect to the home page.
 export default async function LayoutPrivate({
   children,
 }: {
@@ -18,6 +16,11 @@ export default async function LayoutPrivate({
 
   if (!session) {
     redirect(config.auth.loginUrl);
+  }
+
+  // Check if the user is in the ADMINS list
+  if (!ADMINS.includes(session.user?.email || "")) {
+    redirect("/"); // Redirect non-admin users to home page
   }
 
   return <>{children}</>;
