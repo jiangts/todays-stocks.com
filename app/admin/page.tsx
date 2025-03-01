@@ -19,23 +19,14 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const toggleSubscription = (id: number) => {
-    setStrategies(
-      strategies.map((strategy) => {
-        if (strategy.id === id) {
-          const newSubscriptionState = !strategy.subscribed;
-
-          if (newSubscriptionState) {
-            toast.success(`Subscribed to ${strategy.name}`);
-          } else {
-            toast.success(`Unsubscribed from ${strategy.name}`);
-          }
-
-          return { ...strategy, subscribed: newSubscriptionState };
-        }
-        return strategy;
-      }),
-    );
+  const fetchStrategies = () => {
+    // In a real app, this would fetch from an API
+    setIsLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+      setStrategies(stockStrategies);
+      setIsLoading(false);
+    }, 300);
   };
 
   const fetchLeads = async () => {
@@ -81,6 +72,8 @@ export default function Dashboard() {
       fetchLeads();
     } else if (activeTab === "users") {
       fetchUsers();
+    } else if (activeTab === "strategies") {
+      fetchStrategies();
     }
   }, [activeTab]);
 
@@ -156,35 +149,56 @@ export default function Dashboard() {
 
           {/* Strategies Tab Content */}
           {activeTab === 'strategies' && (
-            <div className="space-y-6">
-              <p className="text-lg text-gray-600">
-                Subscribe to stock mailing lists that match your investment
-                strategy.
-              </p>
-              {strategies.map((strategy) => (
-                <div
-                  key={strategy.id}
-                  className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow"
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <p className="text-lg text-gray-600">
+                  Manage available stock trading strategies.
+                </p>
+                <button
+                  className="btn btn-primary btn-sm"
+                  onClick={fetchStrategies}
+                  disabled={isLoading}
                 >
-                  <div className="card-body">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h2 className="card-title">{strategy.name}</h2>
-                        <div className="badge badge-ghost mt-1 mb-2">
-                          {strategy.frequency}
-                        </div>
-                        <p>{strategy.description}</p>
-                      </div>
-                      <button
-                        className={`btn ${strategy.subscribed ? "btn-error" : "btn-primary"}`}
-                        onClick={() => toggleSubscription(strategy.id)}
-                      >
-                        {strategy.subscribed ? "Unsubscribe" : "Subscribe"}
-                      </button>
-                    </div>
-                  </div>
+                  {isLoading ? 'Loading...' : 'Refresh'}
+                </button>
+              </div>
+
+              {error && <div className="alert alert-error mb-4">{error}</div>}
+
+              {isLoading ? (
+                <div className="flex justify-center py-8">
+                  <span className="loading loading-spinner loading-lg"></span>
                 </div>
-              ))}
+              ) : strategies.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="table table-zebra table-compact w-full">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Frequency</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {strategies.map((strategy) => (
+                        <tr key={strategy.id}>
+                          <td className="font-medium">{strategy.name}</td>
+                          <td>{strategy.frequency}</td>
+                          <td>{strategy.description}</td>
+                          <td>
+                            <span className={`badge ${strategy.subscribed ? 'badge-success' : 'badge-ghost'}`}>
+                              {strategy.subscribed ? 'Active' : 'Inactive'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="alert alert-info">No strategies found.</div>
+              )}
             </div>
           )}
 

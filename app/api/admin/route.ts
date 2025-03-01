@@ -17,10 +17,8 @@ export async function GET(req: NextRequest) {
     const type = searchParams.get("type");
 
     if (type === "leads") {
-      console.log("HERE!")
       // Fetch all leads
       const leads = await Lead.find({}).sort({ createdAt: -1 }).lean();
-      console.log("leads", leads)
       return NextResponse.json({ leads });
     } else if (type === "users") {
       // Fetch all users
