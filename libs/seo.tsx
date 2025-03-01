@@ -103,7 +103,8 @@ export const renderSchemaTags = () => {
               "@type": "Offer",
               price: "0.00",
               priceCurrency: "USD",
-              description: "Sign up for free and receive daily stock insights, news, and alerts",
+              description:
+                "Sign up for free and receive daily stock insights, news, and alerts",
             },
           ],
         }),
