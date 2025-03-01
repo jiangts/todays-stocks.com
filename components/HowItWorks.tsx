@@ -19,9 +19,9 @@ const HowItWorks = () => {
     },
     {
       number: "3",
-      title: "Set alerts & make data-driven decisions.",
+      title: "Set alerts & make smarter trades.",
       description:
-        "Define your own investment criteria & receive actionable insights.",
+        "Define your own criteria & get notified when opportunities arise.",
       bgColor: "bg-purple-900/30",
     },
   ];

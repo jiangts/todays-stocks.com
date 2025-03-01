@@ -16,16 +16,21 @@ const CTA = () => {
       <div className="relative hero-content text-center text-neutral-content p-8">
         <div className="flex flex-col items-center max-w-xl p-8 md:p-0">
           <h2 className="font-bold text-3xl md:text-5xl tracking-tight mb-8 md:mb-12">
-            Get your daily stock summary &amp; analysis
+            Get your stock summary today
           </h2>
           <p className="text-lg opacity-80 mb-12 md:mb-16">
-            Sign up for the mailing list for free!
+            {/* Sign up for the mailing list for free! */}
+            <strong>Sign up for free</strong> and receive daily stock insights,
+            news, and alerts—delivered straight to your inbox
           </p>
 
           {/* <button className="btn btn-primary btn-wide">
             Get {config.appName}
           </button> */}
-          <ButtonSignin />
+          <ButtonSignin
+            className="btn-primary btn-wide"
+            text="Sign up for free"
+          />
           {/* <ButtonLead /> */}
         </div>
       </div>

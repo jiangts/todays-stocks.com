@@ -7,7 +7,8 @@ const features = [
   {
     icon: <Icon path={mdiClock} size={1.5} className="text-primary" />,
     title: "Save time",
-    description: "Automated research and analysis specific to your strategy or portfolio.",
+    description:
+      "Automated research and analysis specific to your strategy or portfolio.",
   },
   {
     icon: <Icon path={mdiBrain} size={1.5} className="text-primary" />,

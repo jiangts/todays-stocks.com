@@ -30,10 +30,7 @@ const ButtonSignin = ({
 
   if (status === "authenticated") {
     return (
-      <Link
-        href={config.auth.callbackUrl}
-        className={clsx("btn", className)}
-      >
+      <Link href={config.auth.callbackUrl} className={clsx("btn", className)}>
         {session.user?.image ? (
           <img
             src={session.user?.image}
@@ -54,10 +51,7 @@ const ButtonSignin = ({
   }
 
   return (
-    <button
-      className={clsx("btn", className)}
-      onClick={handleClick}
-    >
+    <button className={clsx("btn", className)} onClick={handleClick}>
       {text}
     </button>
   );

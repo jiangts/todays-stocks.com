@@ -1,11 +1,11 @@
-import clsx from 'clsx';
+import clsx from "clsx";
 
 const Arrow = ({ className }: { className?: string }) => {
   return (
     <svg
       className={clsx(
-        'shrink-0 w-12 fill-neutral-content opacity-70',
-        className
+        "shrink-0 w-12 fill-neutral-content opacity-70",
+        className,
       )}
       viewBox="0 0 138 138"
       fill="none"

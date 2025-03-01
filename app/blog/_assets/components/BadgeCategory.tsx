@@ -13,7 +13,10 @@ const Category = ({
   return (
     <Link
       href={`/blog/category/${category.slug}`}
-      className={clsx("badge badge-sm md:badge-md hover:badge-primary", className)}
+      className={clsx(
+        "badge badge-sm md:badge-md hover:badge-primary",
+        className,
+      )}
       title={`Posts in ${category.title}`}
       rel="tag"
     >

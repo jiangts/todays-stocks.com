@@ -12,9 +12,9 @@ const Hero = () => {
           AI-Powered Stock Research
         </h1>
         <p className="text-lg opacity-80 leading-relaxed prose">
-          Stay on top of your trading strategy with daily market insights for
-          your chosen stocks, with alerts and analysis on price changes, news,
-          and more!
+          Stay on top of your trading strategy with{" "}
+          <strong>daily market insights</strong> for your chosen stocks, with{" "}
+          <strong>alerts and analysis on price changes, news, and more</strong>!
           {/* Our AI scans the market daily, delivering automated fundamental &
           technical analysis on pre-defined stock sets (e.g., daily top gainers
           & losers) or your custom stock watchlist. Get alerts based on your
@@ -23,7 +23,10 @@ const Hero = () => {
         {/* <button className="btn btn-primary btn-wide">
           Get {config.appName}
         </button> */}
-        <ButtonSignin />
+        <ButtonSignin
+          className="btn-primary btn-wide"
+          text="Sign up for free"
+        />
         {/* <div className="m-auto">
           <ButtonLead />
         </div> */}
