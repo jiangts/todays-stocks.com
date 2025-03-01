@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Crisp } from "crisp-sdk-web";
 import { SessionProvider } from "next-auth/react";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import { Tooltip } from "react-tooltip";
@@ -59,7 +60,7 @@ const ClientLayout = ({ children }: { children: ReactNode }) => {
         <NextTopLoader color={config.colors.main} showSpinner={false} />
 
         {/* Content inside app/page.js files  */}
-        {children}
+        <NuqsAdapter>{children}</NuqsAdapter>
 
         {/* Show Success/Error messages anywhere from the app with toast() */}
         <Toaster
