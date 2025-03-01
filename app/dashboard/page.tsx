@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/app/icon.png";
 import config from "@/config";
+import toast from "react-hot-toast";
 
 export const dynamic = "force-dynamic";
 
@@ -26,14 +27,14 @@ const stockStrategies = [
       "List of 25 biggest stock gainers each day with AI analysis of the price movement",
     subscribed: true,
   },
-  {
-    id: 3,
-    name: "Weekly Market Recap",
-    frequency: "weekly",
-    description:
-      "Comprehensive analysis of market trends and notable stock movements from the week",
-    subscribed: false,
-  },
+  // {
+  //   id: 3,
+  //   name: "Weekly Market Recap",
+  //   frequency: "weekly",
+  //   description:
+  //     "Comprehensive analysis of market trends and notable stock movements from the week",
+  //   subscribed: false,
+  // },
   // {
   //   id: 4,
   //   name: 'Monthly Sector Analysis',
@@ -55,11 +56,20 @@ export default function Dashboard() {
 
   const toggleSubscription = (id: number) => {
     setStrategies(
-      strategies.map((strategy) =>
-        strategy.id === id
-          ? { ...strategy, subscribed: !strategy.subscribed }
-          : strategy,
-      ),
+      strategies.map((strategy) => {
+        if (strategy.id === id) {
+          const newSubscriptionState = !strategy.subscribed;
+
+          if (newSubscriptionState) {
+            toast.success(`Subscribed to ${strategy.name}`);
+          } else {
+            toast.success(`Unsubscribed from ${strategy.name}`);
+          }
+
+          return { ...strategy, subscribed: newSubscriptionState };
+        }
+        return strategy;
+      }),
     );
   };
 

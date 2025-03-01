@@ -23,8 +23,8 @@ export async function POST(req: NextRequest) {
       await sendEmail({
         to: body.email,
         subject: "Welcome to Todays-Stocks.com",
-        text: "Welcome to ShipFast! We're excited to have you on board. We'll keep you updated with our progress. If you have any questions, feel free to reply to this email.",
-        html: "<p>Welcome to ShipFast! We're excited to have you on board. We'll keep you updated with our progress. If you have any questions, feel free to reply to this email.</p>",
+        text: "Welcome to TodaysStocks! We're excited to have you on board. We'll keep you updated with our progress. If you have any questions, feel free to reply to this email.",
+        html: "<p>Welcome to TodaysStocks! We're excited to have you on board. We'll keep you updated with our progress. If you have any questions, feel free to reply to this email.</p>",
       });
     }
 
