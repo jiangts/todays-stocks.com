@@ -14,6 +14,10 @@ const Hero = () => {
           Stay on top of your trading strategy with daily market insights for
           your chosen stocks, with alerts and analysis on price changes, news,
           and more!
+          {/* Our AI scans the market daily, delivering automated fundamental &
+          technical analysis on pre-defined stock sets (e.g., daily top gainers
+          & losers) or your custom stock watchlist. Get alerts based on your
+          criteria & never miss a key market move. */}
         </p>
         {/* <button className="btn btn-primary btn-wide">
           Get {config.appName}
