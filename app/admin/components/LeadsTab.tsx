@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
+import qs from "qs";
+import apiClient, { fetcher } from "@/libs/api";
 
 interface Lead {
   _id: string;
@@ -8,32 +10,16 @@ interface Lead {
 }
 
 export default function LeadsTab() {
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const fetchLeads = async () => {
-    setIsLoading(true);
-    setError("");
-    try {
-      const response = await fetch("/api/admin?type=leads");
-      if (!response.ok) {
-        throw new Error("Failed to fetch leads");
-      }
-      const data = await response.json();
-      setLeads(data.leads || []);
-    } catch (err) {
-      console.error("Error fetching leads:", err);
-      setError("Failed to load leads. Please try again.");
-      toast.error("Failed to load leads");
-    } finally {
-      setIsLoading(false);
+  const { data: leads = [], error, isLoading, mutate } = useSWR<Lead[]>(
+    ["/api/admin", { params: { type: "leads" } }],
+    ([url, params]) => fetcher(url, params).then((data) => data.leads),
+    {
+      onError: (err) => {
+        console.error("Error fetching leads:", err);
+        toast.error("Failed to load leads");
+      },
     }
-  };
-
-  useEffect(() => {
-    fetchLeads();
-  }, []);
+  );
 
   // Format date to be more readable
   const formatDate = (dateString: string): string => {
@@ -48,14 +34,18 @@ export default function LeadsTab() {
         </p>
         <button
           className="btn btn-primary btn-sm"
-          onClick={fetchLeads}
+          onClick={() => mutate()}
           disabled={isLoading}
         >
           {isLoading ? "Loading..." : "Refresh"}
         </button>
       </div>
 
-      {error && <div className="alert alert-error mb-4">{error}</div>}
+      {error && (
+        <div className="alert alert-error mb-4">
+          Failed to load leads. Please try again.
+        </div>
+      )}
 
       {isLoading ? (
         <div className="flex justify-center py-8">

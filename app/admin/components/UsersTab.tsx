@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
+import { fetcher } from "@/libs/api";
 
 interface User {
   _id: string;
@@ -10,32 +11,16 @@ interface User {
 }
 
 export default function UsersTab() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const fetchUsers = async () => {
-    setIsLoading(true);
-    setError("");
-    try {
-      const response = await fetch("/api/admin?type=users");
-      if (!response.ok) {
-        throw new Error("Failed to fetch users");
-      }
-      const data = await response.json();
-      setUsers(data.users || []);
-    } catch (err) {
-      console.error("Error fetching users:", err);
-      setError("Failed to load users. Please try again.");
-      toast.error("Failed to load users");
-    } finally {
-      setIsLoading(false);
+  const { data: users = [], error, isLoading, mutate } = useSWR<User[]>(
+    ["/api/admin", { params: { type: "users" } }],
+    ([url, params]) => fetcher(url, params).then((data) => data.users),
+    {
+      onError: (err) => {
+        console.error("Error fetching users:", err);
+        toast.error("Failed to load users");
+      },
     }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  );
 
   // Format date to be more readable
   const formatDate = (dateString: string): string => {
@@ -50,14 +35,18 @@ export default function UsersTab() {
         </p>
         <button
           className="btn btn-primary btn-sm"
-          onClick={fetchUsers}
+          onClick={() => mutate()}
           disabled={isLoading}
         >
           {isLoading ? "Loading..." : "Refresh"}
         </button>
       </div>
 
-      {error && <div className="alert alert-error mb-4">{error}</div>}
+      {error && (
+        <div className="alert alert-error mb-4">
+          Failed to load users. Please try again.
+        </div>
+      )}
 
       {isLoading ? (
         <div className="flex justify-center py-8">

@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import config from "@/config";
+import qs from "qs";
 
 // use this to interact with our own API (/app/api folder) from the front-end side
 // See https://shipfa.st/docs/tutorials/api-call
@@ -45,3 +46,15 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+export const fetcher = async (url: string, config: Record<string, any> = {}) => {
+  const { params, ...restConfig } = config;
+  const queryString = qs.stringify(params);
+  const fullUrl = `${url}${queryString ? `?${queryString}` : ''}`;
+
+  const res = await fetch(fullUrl, restConfig);
+  if (!res.ok) {
+    throw new Error(await res.json());
+  }
+  return res.json();
+};
