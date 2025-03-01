@@ -12,24 +12,27 @@ export const dynamic = "force-dynamic";
 const stockStrategies = [
   {
     id: 1,
-    name: 'Daily Losers',
-    frequency: 'daily',
-    description: 'List of 25 biggest stock losers each day and AI analysis of why the price moved',
-    subscribed: false
+    name: "Daily Losers",
+    frequency: "daily",
+    description:
+      "List of 25 biggest stock losers each day and AI analysis of why the price moved",
+    subscribed: false,
   },
   {
     id: 2,
-    name: 'Daily Winners',
-    frequency: 'daily',
-    description: 'List of 25 biggest stock gainers each day with AI analysis of the price movement',
-    subscribed: true
+    name: "Daily Winners",
+    frequency: "daily",
+    description:
+      "List of 25 biggest stock gainers each day with AI analysis of the price movement",
+    subscribed: true,
   },
   {
     id: 3,
-    name: 'Weekly Market Recap',
-    frequency: 'weekly',
-    description: 'Comprehensive analysis of market trends and notable stock movements from the week',
-    subscribed: false
+    name: "Weekly Market Recap",
+    frequency: "weekly",
+    description:
+      "Comprehensive analysis of market trends and notable stock movements from the week",
+    subscribed: false,
   },
   // {
   //   id: 4,
@@ -51,9 +54,13 @@ export default function Dashboard() {
   const [strategies, setStrategies] = useState(stockStrategies);
 
   const toggleSubscription = (id: number) => {
-    setStrategies(strategies.map(strategy =>
-      strategy.id === id ? {...strategy, subscribed: !strategy.subscribed} : strategy
-    ));
+    setStrategies(
+      strategies.map((strategy) =>
+        strategy.id === id
+          ? { ...strategy, subscribed: !strategy.subscribed }
+          : strategy,
+      ),
+    );
   };
 
   return (
@@ -95,9 +102,12 @@ export default function Dashboard() {
 
       <main className="min-h-screen p-8 pb-24">
         <section className="max-w-3xl mx-auto space-y-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold">Stock Strategy Subscriptions</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold">
+            Stock Strategy Subscriptions
+          </h1>
           <p className="text-lg text-gray-600">
-            Subscribe to stock mailing lists that match your investment strategy.
+            Subscribe to stock mailing lists that match your investment
+            strategy.
           </p>
 
           <div className="space-y-6">
@@ -110,14 +120,16 @@ export default function Dashboard() {
                   <div className="flex justify-between items-start">
                     <div>
                       <h2 className="card-title">{strategy.name}</h2>
-                      <div className="badge badge-ghost mt-1 mb-2">{strategy.frequency}</div>
+                      <div className="badge badge-ghost mt-1 mb-2">
+                        {strategy.frequency}
+                      </div>
                       <p>{strategy.description}</p>
                     </div>
                     <button
-                      className={`btn ${strategy.subscribed ? 'btn-error' : 'btn-primary'}`}
+                      className={`btn ${strategy.subscribed ? "btn-error" : "btn-primary"}`}
                       onClick={() => toggleSubscription(strategy.id)}
                     >
-                      {strategy.subscribed ? 'Unsubscribe' : 'Subscribe'}
+                      {strategy.subscribed ? "Unsubscribe" : "Subscribe"}
                     </button>
                   </div>
                 </div>
