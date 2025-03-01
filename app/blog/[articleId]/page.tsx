@@ -115,7 +115,7 @@ export default async function Article({
               <BadgeCategory
                 category={category}
                 key={category.slug}
-                extraStyle="!badge-lg"
+                className="!badge-lg"
               />
             ))}
             <span className="text-base-content/80" itemProp="datePublished">

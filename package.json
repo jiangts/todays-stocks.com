@@ -20,6 +20,7 @@
     "@next/mdx": "^13.5.6",
     "@tailwindcss/typography": "^0.5.16",
     "axios": "^1.6.8",
+    "clsx": "^2.1.1",
     "crisp-sdk-web": "^1.0.22",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",

@@ -3,12 +3,13 @@
 import React, { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import apiClient from "@/libs/api";
+import clsx from "clsx";
 
 // This component is used to collect the emails from the landing page
 // You'd use this if your product isn't ready yet or you want to collect leads
 // For instance: A popup to send a freebie, joining a waitlist, etc.
 // It calls the /api/lead/route.js route and store a Lead document in the database
-const ButtonLead = ({ extraStyle }: { extraStyle?: string }) => {
+const ButtonLead = ({ className }: { className?: string }) => {
   const inputRef = useRef(null);
   const [email, setEmail] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const ButtonLead = ({ extraStyle }: { extraStyle?: string }) => {
   };
   return (
     <form
-      className={`w-full max-w-md space-y-3 ${extraStyle ? extraStyle : ""}`}
+      className={clsx("w-full max-w-md space-y-3", className)}
       onSubmit={handleSubmit}
     >
       <input

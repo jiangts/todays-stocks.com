@@ -1,6 +1,7 @@
 import Image from "next/image";
 import config from "@/config";
 import ButtonLead from "./ButtonLead";
+import ButtonSignin from "./ButtonSignin";
 
 const CTA = () => {
   return (
@@ -24,7 +25,8 @@ const CTA = () => {
           {/* <button className="btn btn-primary btn-wide">
             Get {config.appName}
           </button> */}
-          <ButtonLead />
+          <ButtonSignin />
+          {/* <ButtonLead /> */}
         </div>
       </div>
     </section>

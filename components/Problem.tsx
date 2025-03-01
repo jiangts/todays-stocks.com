@@ -1,7 +1,12 @@
-const Arrow = ({ extraStyle }: { extraStyle: string }) => {
+import clsx from 'clsx';
+
+const Arrow = ({ className }: { className?: string }) => {
   return (
     <svg
-      className={`shrink-0 w-12 fill-neutral-content opacity-70 ${extraStyle}`}
+      className={clsx(
+        'shrink-0 w-12 fill-neutral-content opacity-70',
+        className
+      )}
       viewBox="0 0 138 138"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -54,11 +59,11 @@ const Problem = () => {
         <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-6">
           <Step emoji="🧑‍💻" text="8 hrs to add Stripe" />
 
-          <Arrow extraStyle="max-md:-scale-x-100 md:-rotate-90" />
+          <Arrow className="max-md:-scale-x-100 md:-rotate-90" />
 
           <Step emoji="😮‍💨" text="Struggle to find time" />
 
-          <Arrow extraStyle="md:-scale-x-100 md:-rotate-90" />
+          <Arrow className="md:-scale-x-100 md:-rotate-90" />
 
           <Step emoji="😔" text="Quit project" />
         </div>
