@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import FeaturesGrid from "@/components/FeaturesGrid";
 import HowItWorks from "@/components/HowItWorks";
+import FeaturesList from "@/components/FeaturesList";
 
 export default function Home() {
   return (
@@ -21,9 +22,9 @@ export default function Home() {
         <Hero />
         {/* <Problem /> */}
         <HowItWorks />
-        <FeaturesAccordion />
-        <FeaturesListicle />
-        {/* <FeaturesList /> */}
+        <FeaturesList />
+        {/* <FeaturesAccordion />
+        <FeaturesListicle /> */}
         {/* <Pricing /> */}
         <FAQ />
         <CTA />
