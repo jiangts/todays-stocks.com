@@ -7,22 +7,25 @@ const HowItWorks = () => {
       number: "️1",
       title: "Our AI scans thousands of stocks daily.",
       description: "Fundamental & technical insights powered by real-time news & data.",
+      bgColor: "bg-blue-900/30",
     },
     {
       number: "2",
       title: "Get AI-curated stock picks or add your own watchlist.",
       description: "Choose from top gainers, losers, trending stocks, or your own custom list.",
+      bgColor: "bg-indigo-900/30",
     },
     {
       number: "3",
       title: "Set alerts & make data-driven decisions.",
       description: "Define your own investment criteria & receive actionable insights.",
+      bgColor: "bg-purple-900/30",
     },
   ];
 
   return (
     <section
-      className="py-24 md:py-32 bg-gradient-to-b from-base-100 to-base-200"
+      className="py-24 md:py-32 bg-neutral-800 text-neutral-content"
       id="how-it-works"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +33,7 @@ const HowItWorks = () => {
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             How It Works
           </h2>
-          <p className="text-lg text-base-content/80 max-w-2xl mx-auto">
+          <p className="text-lg opacity-90 max-w-2xl mx-auto">
             Simple steps to transform your investment strategy with AI-powered insights
           </p>
         </div>
@@ -39,9 +42,9 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="flex flex-col bg-base-100 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-base-300 relative overflow-hidden group"
+              className={`flex flex-col ${step.bgColor} rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-neutral-content/20 relative overflow-hidden group`}
             >
-              <div className="absolute -right-4 -top-4 bg-primary/10 rounded-full w-24 h-24 flex items-center justify-center">
+              <div className="absolute -right-4 -top-4 bg-primary/20 rounded-full w-24 h-24 flex items-center justify-center">
                 <span className="text-4xl font-bold">{step.number}</span>
               </div>
 
@@ -49,7 +52,7 @@ const HowItWorks = () => {
                 {step.title}
               </h3>
 
-              <div className="flex items-center mt-3 text-base-content/70">
+              <div className="flex items-center mt-3 opacity-90">
                 <Icon path={mdiArrowRight} className="h-5 w-5 text-primary mr-2" />
                 <p>{step.description}</p>
               </div>
