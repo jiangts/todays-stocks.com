@@ -7,7 +7,7 @@ const features = [
   {
     icon: <Icon path={mdiClock} size={1.5} className="text-primary" />,
     title: "Save time",
-    description: "No need to scan hundreds of stocks manually.",
+    description: "Automated research and analysis specific to your strategy or portfolio.",
   },
   {
     icon: <Icon path={mdiBrain} size={1.5} className="text-primary" />,
@@ -17,13 +17,13 @@ const features = [
   {
     icon: <Icon path={mdiBell} size={1.5} className="text-primary" />,
     title: "Customizable alerts",
-    description: "Set your own investment criteria.",
+    description: "Define custom investment strategies and alerting criteria.",
   },
   {
     icon: <Icon path={mdiTrendingUp} size={1.5} className="text-primary" />,
     title: "Daily insights",
     description:
-      "Get the latest market trends & opportunities in under 15 minutes/day.",
+      "Absorb the latest market trends & opportunities in a couple minutes each day.",
   },
 ];
 
@@ -33,7 +33,7 @@ export default function FeaturesList() {
       <div className="container px-4 mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-gray-900">
-            Why Choose Our AI Research?
+            Make better trades with AI
           </h2>
           <div className="h-1 w-24 bg-primary mx-auto"></div>
         </div>
