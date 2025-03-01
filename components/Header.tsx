@@ -8,6 +8,8 @@ import Image from "next/image";
 import ButtonSignin from "./ButtonSignin";
 import logo from "@/app/icon.png";
 import config from "@/config";
+import { Icon } from "@mdi/react";
+import { mdiMenu, mdiClose } from "@mdi/js";
 
 const links: {
   href: string;
@@ -73,20 +75,7 @@ const Header = () => {
             onClick={() => setIsOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6 text-base-content"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
+            <Icon path={mdiMenu} size={1.5} className="text-base-content" />
           </button>
         </div>
 
@@ -137,20 +126,7 @@ const Header = () => {
               onClick={() => setIsOpen(false)}
             >
               <span className="sr-only">Close menu</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <Icon path={mdiClose} size={1.5} />
             </button>
           </div>
 
