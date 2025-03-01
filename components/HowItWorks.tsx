@@ -6,19 +6,22 @@ const HowItWorks = () => {
     {
       number: "️1",
       title: "Our AI scans thousands of stocks daily.",
-      description: "Fundamental & technical insights powered by real-time news & data.",
+      description:
+        "Fundamental & technical insights powered by real-time news & data.",
       bgColor: "bg-blue-900/30",
     },
     {
       number: "2",
       title: "Get AI-curated stock picks or add your own watchlist.",
-      description: "Choose from top gainers, losers, trending stocks, or your own custom list.",
+      description:
+        "Choose from top gainers, losers, trending stocks, or your own custom list.",
       bgColor: "bg-indigo-900/30",
     },
     {
       number: "3",
       title: "Set alerts & make data-driven decisions.",
-      description: "Define your own investment criteria & receive actionable insights.",
+      description:
+        "Define your own investment criteria & receive actionable insights.",
       bgColor: "bg-purple-900/30",
     },
   ];
@@ -34,7 +37,8 @@ const HowItWorks = () => {
             How It Works
           </h2>
           <p className="text-lg opacity-90 max-w-2xl mx-auto">
-            Simple steps to transform your investment strategy with AI-powered insights
+            Simple steps to transform your investment strategy with AI-powered
+            insights
           </p>
         </div>
 
@@ -53,7 +57,10 @@ const HowItWorks = () => {
               </h3>
 
               <div className="flex items-center mt-3 opacity-90">
-                <Icon path={mdiArrowRight} className="h-5 w-5 text-primary mr-2" />
+                <Icon
+                  path={mdiArrowRight}
+                  className="h-5 w-5 text-primary mr-2"
+                />
                 <p>{step.description}</p>
               </div>
 

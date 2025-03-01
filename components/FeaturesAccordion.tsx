@@ -4,7 +4,12 @@ import { useState, useRef } from "react";
 import type { JSX } from "react";
 import Image from "next/image";
 import { Icon } from "@mdi/react";
-import { mdiEmailOutline, mdiCreditCardOutline, mdiPalette, mdiAccountCircle } from "@mdi/js";
+import {
+  mdiEmailOutline,
+  mdiCreditCardOutline,
+  mdiPalette,
+  mdiAccountCircle,
+} from "@mdi/js";
 
 interface Feature {
   title: string;

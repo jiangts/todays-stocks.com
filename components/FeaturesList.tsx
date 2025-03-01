@@ -1,7 +1,7 @@
-'use client'
+"use client";
 import React from "react";
-import { mdiClock, mdiBrain, mdiBell, mdiTrendingUp } from '@mdi/js';
-import Icon from '@mdi/react';
+import { mdiClock, mdiBrain, mdiBell, mdiTrendingUp } from "@mdi/js";
+import Icon from "@mdi/react";
 
 const features = [
   {
@@ -22,7 +22,8 @@ const features = [
   {
     icon: <Icon path={mdiTrendingUp} size={1.5} className="text-primary" />,
     title: "Daily insights",
-    description: "Get the latest market trends & opportunities in under 15 minutes/day.",
+    description:
+      "Get the latest market trends & opportunities in under 15 minutes/day.",
   },
 ];
 
