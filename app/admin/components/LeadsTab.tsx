@@ -10,7 +10,12 @@ interface Lead {
 }
 
 export default function LeadsTab() {
-  const { data: leads = [], error, isLoading, mutate } = useSWR<Lead[]>(
+  const {
+    data: leads = [],
+    error,
+    isLoading,
+    mutate,
+  } = useSWR<Lead[]>(
     ["/api/admin", { params: { type: "leads" } }],
     ([url, params]) => fetcher(url, params).then((data) => data.leads),
     {
@@ -18,7 +23,7 @@ export default function LeadsTab() {
         console.error("Error fetching leads:", err);
         toast.error("Failed to load leads");
       },
-    }
+    },
   );
 
   // Format date to be more readable

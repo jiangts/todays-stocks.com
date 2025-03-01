@@ -11,7 +11,12 @@ interface User {
 }
 
 export default function UsersTab() {
-  const { data: users = [], error, isLoading, mutate } = useSWR<User[]>(
+  const {
+    data: users = [],
+    error,
+    isLoading,
+    mutate,
+  } = useSWR<User[]>(
     ["/api/admin", { params: { type: "users" } }],
     ([url, params]) => fetcher(url, params).then((data) => data.users),
     {
@@ -19,7 +24,7 @@ export default function UsersTab() {
         console.error("Error fetching users:", err);
         toast.error("Failed to load users");
       },
-    }
+    },
   );
 
   // Format date to be more readable

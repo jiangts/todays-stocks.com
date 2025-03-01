@@ -47,10 +47,13 @@ apiClient.interceptors.response.use(
 
 export default apiClient;
 
-export const fetcher = async (url: string, config: Record<string, any> = {}) => {
+export const fetcher = async (
+  url: string,
+  config: Record<string, any> = {},
+) => {
   const { params, ...restConfig } = config;
   const queryString = qs.stringify(params);
-  const fullUrl = `${url}${queryString ? `?${queryString}` : ''}`;
+  const fullUrl = `${url}${queryString ? `?${queryString}` : ""}`;
 
   const res = await fetch(fullUrl, restConfig);
   if (!res.ok) {
