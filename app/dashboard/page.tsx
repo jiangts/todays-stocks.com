@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 export const dynamic = "force-dynamic";
 
-const stockStrategies = [
+export const stockStrategies = [
   {
     id: 1,
     name: "Daily Losers",
