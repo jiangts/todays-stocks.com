@@ -2,15 +2,12 @@
 
 import { useState, useEffect } from "react";
 import useSWR from "swr";
-import ButtonAccount from "@/components/ButtonAccount";
-import Image from "next/image";
-import Link from "next/link";
-import logo from "@/app/icon.png";
-import config from "@/config";
 import toast from "react-hot-toast";
 import { fetcher } from "@/libs/api";
 import { Strategy } from "@/types";
 import apiClient from "@/libs/api";
+import Header from "./components/Header";
+import StrategyList from "./components/StrategyList";
 
 export const dynamic = "force-dynamic";
 
@@ -23,10 +20,9 @@ export default function Dashboard() {
   >([]);
 
   // Fetch user's subscribed strategies
-  const { data: subscribedStrategies = [], error: subscriptionError } = useSWR<
-    Strategy[]
-  >("/api/user/subscriptions", (url: string) =>
-    fetcher(url).then((data) => data.strategies || []),
+  const { data: subscribedStrategies = [] } = useSWR<Strategy[]>(
+    "/api/user/subscriptions",
+    (url: string) => fetcher(url).then((data) => data.strategies || []),
   );
 
   // Fetch all available strategies
@@ -104,39 +100,7 @@ export default function Dashboard() {
 
   return (
     <>
-      {/* Navbar */}
-      <header className="bg-base-200">
-        <nav className="container flex items-center justify-between px-8 py-4 mx-auto">
-          <div className="flex">
-            <Link
-              className="flex items-center gap-2 shrink-0"
-              href="/"
-              title={`${config.appName} homepage`}
-            >
-              <Image
-                src={logo}
-                alt={`${config.appName} logo`}
-                className="w-8"
-                placeholder="blur"
-                priority={true}
-                width={32}
-                height={32}
-              />
-              <span className="font-extrabold text-lg">{config.appName}</span>
-            </Link>
-          </div>
-
-          {/* Center section - can add links here if needed */}
-          <div className="hidden lg:flex lg:justify-center lg:gap-12 lg:items-center">
-            {/* Navigation links could go here */}
-          </div>
-
-          {/* Account button on right */}
-          <div className="flex justify-end">
-            <ButtonAccount />
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       <main className="min-h-screen p-8 pb-24">
         <section className="max-w-3xl mx-auto space-y-8">
@@ -156,60 +120,12 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {error && (
-            <div className="alert alert-error">
-              Failed to load strategies. Please try again.
-            </div>
-          )}
-
-          {isLoading ? (
-            <div className="space-y-6">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="card bg-base-100 shadow-lg">
-                  <div className="card-body">
-                    <div className="flex justify-between items-start">
-                      <div className="w-full">
-                        <div className="skeleton h-8 w-1/3 mb-2"></div>
-                        <div className="skeleton h-4 w-16 mb-4"></div>
-                        <div className="skeleton h-4 w-full mb-2"></div>
-                        <div className="skeleton h-4 w-5/6"></div>
-                      </div>
-                      <div className="skeleton h-10 w-28"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : mergedStrategies.length > 0 ? (
-            <div className="space-y-6">
-              {mergedStrategies.map((strategy) => (
-                <div
-                  key={strategy.id}
-                  className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <div className="card-body">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h2 className="card-title">{strategy.name}</h2>
-                        <div className="badge badge-ghost mt-1 mb-2">
-                          {strategy.frequency}
-                        </div>
-                        <p>{strategy.description}</p>
-                      </div>
-                      <button
-                        className={`btn ${strategy.subscribed ? "btn-error" : "btn-primary"}`}
-                        onClick={() => toggleSubscription(strategy.id)}
-                      >
-                        {strategy.subscribed ? "Unsubscribe" : "Subscribe"}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="alert alert-info">No strategies available.</div>
-          )}
+          <StrategyList
+            strategies={mergedStrategies}
+            isLoading={isLoading}
+            error={error}
+            onToggleSubscription={toggleSubscription}
+          />
         </section>
       </main>
     </>
