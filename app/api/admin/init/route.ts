@@ -20,24 +20,48 @@ const DEFAULT_STRATEGIES = [
     visibility: "public",
   },
   // {
+  //   name: "Weekly Market Recap",
+  //   frequency: "weekly",
+  //   description:
+  //     "Comprehensive analysis of market trends and notable stock movements from the week",
+  //   visibility: "public",
+  // },
+  // {
+  //   name: 'Monthly Sector Analysis',
+  //   frequency: 'monthly',
+  //   description: 'Deep dive into sector performance with AI predictions for upcoming month',
+  //   visibility: "public",
+  // },
+  // {
+  //   name: 'IPO Alerts',
+  //   frequency: 'as available',
+  //   description: 'Notifications about upcoming IPOs with company analysis and market predictions',
+  //   visibility: "public",
+  // }
+  // {
   //   name: "Growth Stocks",
   //   description: "Focus on companies with above-average growth potential",
+  //   visibility: "public",
   // },
   // {
   //   name: "Dividend Stocks",
   //   description: "Focus on companies that pay regular dividends",
+  //   visibility: "public",
   // },
   // {
   //   name: "Value Investing",
   //   description: "Focus on undervalued companies with strong fundamentals",
+  //   visibility: "public",
   // },
   // {
   //   name: "Index Fund Strategy",
   //   description: "Focus on market index funds for long-term growth",
+  //   visibility: "public",
   // },
   // {
   //   name: "Momentum Strategy",
   //   description: "Focus on stocks showing upward price movement trends",
+  //   visibility: "public",
   // }
 ];
 

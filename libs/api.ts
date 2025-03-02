@@ -47,17 +47,48 @@ apiClient.interceptors.response.use(
 
 export default apiClient;
 
-export const fetcher = async (
-  url: string,
-  config: Record<string, any> = {},
-) => {
-  const { params, ...restConfig } = config;
-  const queryString = qs.stringify(params);
-  const fullUrl = `${url}${queryString ? `?${queryString}` : ""}`;
+type FetchParams = {
+  method?: string;
+  body?: any;
+  headers?: Record<string, string>;
+  params?: Record<string, any>;
+};
 
-  const res = await fetch(fullUrl, restConfig);
-  if (!res.ok) {
-    throw new Error(await res.json());
+export const fetcher = async (url: string, options: FetchParams = {}) => {
+  const { method = "GET", body, headers = {}, params } = options;
+
+  // Add query parameters if provided
+  if (params) {
+    const queryString = qs.stringify(params, {
+      skipNulls: true,
+      addQueryPrefix: !url.includes('?'),
+      arrayFormat: 'brackets'
+    });
+    if (queryString) {
+      url = `${url}${url.includes('?') ? '&' : ''}${queryString}`;
+    }
   }
-  return res.json();
+
+  const requestOptions: RequestInit = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      ...headers,
+    },
+    credentials: 'include', // Include credentials for auth cookies
+  };
+
+  if (body) {
+    requestOptions.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(url, requestOptions);
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || 'An error occurred');
+  }
+
+  return data;
 };

@@ -1,36 +1,81 @@
 "use client";
 
 import { useState } from "react";
+import useSWR from "swr";
 import ButtonAccount from "@/components/ButtonAccount";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/app/icon.png";
 import config from "@/config";
 import toast from "react-hot-toast";
-import { stockStrategies } from "./strategies";
+import { fetcher } from "@/libs/api";
+import { Strategy } from "@/types";
 
 export const dynamic = "force-dynamic";
 
+type StrategyWithSubscription = Strategy & { subscribed: boolean };
+
 export default function Dashboard() {
-  const [strategies, setStrategies] = useState(stockStrategies);
+  // Fetch strategies using SWR
+  const {
+    data: strategies = [],
+    error,
+    isLoading,
+    mutate,
+  } = useSWR<StrategyWithSubscription[]>(
+    "/api/strategy",
+    (url) => fetcher(url).then((data) => {
+      // Add local 'subscribed' status to each strategy
+      // In a real app, you would get this from user preferences
+      return data.strategies.map((strategy: Strategy) => ({
+        ...strategy,
+        subscribed: false, // Default to not subscribed
+      }));
+    }),
+    {
+      onError: (err) => {
+        console.error("Error fetching strategies:", err);
+        toast.error("Failed to load strategies");
+      },
+    }
+  );
 
-  const toggleSubscription = (id: number) => {
-    setStrategies(
-      strategies.map((strategy) => {
-        if (strategy.id === id) {
-          const newSubscriptionState = !strategy.subscribed;
+  const toggleSubscription = async (id: string) => {
+    // Update local state immediately for better UX
+    const updatedStrategies = strategies.map((strategy) => {
+      if (strategy.id === id) {
+        return { ...strategy, subscribed: !strategy.subscribed };
+      }
+      return strategy;
+    });
 
-          if (newSubscriptionState) {
-            toast.success(`Subscribed to ${strategy.name}`);
-          } else {
-            toast.success(`Unsubscribed from ${strategy.name}`);
-          }
+    // Optimistic update
+    mutate(updatedStrategies, false);
 
-          return { ...strategy, subscribed: newSubscriptionState };
+    const strategy = strategies.find(s => s.id === id);
+
+    if (strategy) {
+      const newStatus = !strategy.subscribed;
+      try {
+        // In a real app, you would have an API endpoint to handle subscriptions
+        // await fetch(`/api/subscriptions/${id}`, {
+        //   method: 'POST',
+        //   body: JSON.stringify({ subscribed: newStatus }),
+        //   headers: { 'Content-Type': 'application/json' }
+        // });
+
+        // For now, just show a toast message
+        if (newStatus) {
+          toast.success(`Subscribed to ${strategy.name}`);
+        } else {
+          toast.success(`Unsubscribed from ${strategy.name}`);
         }
-        return strategy;
-      }),
-    );
+      } catch (error) {
+        // Revert on error
+        toast.error("Failed to update subscription");
+        mutate(); // Refetch to get the correct state
+      }
+    }
   };
 
   return (
@@ -38,7 +83,6 @@ export default function Dashboard() {
       {/* Navbar */}
       <header className="bg-base-200">
         <nav className="container flex items-center justify-between px-8 py-4 mx-auto">
-          {/* Logo/name */}
           <div className="flex">
             <Link
               className="flex items-center gap-2 shrink-0"
@@ -80,32 +124,59 @@ export default function Dashboard() {
             strategy.
           </p>
 
-          <div className="space-y-6">
-            {strategies.map((strategy) => (
-              <div
-                key={strategy.id}
-                className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="card-body">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h2 className="card-title">{strategy.name}</h2>
-                      <div className="badge badge-ghost mt-1 mb-2">
-                        {strategy.frequency}
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-gray-500">
+              {strategies.length} strategies available
+            </p>
+            <button
+              className="btn btn-sm btn-outline"
+              onClick={() => mutate()}
+              disabled={isLoading}
+            >
+              {isLoading ? <span className="loading loading-spinner loading-xs"></span> : "Refresh"}
+            </button>
+          </div>
+
+          {error && (
+            <div className="alert alert-error">
+              Failed to load strategies. Please try again.
+            </div>
+          )}
+
+          {isLoading ? (
+            <div className="flex justify-center py-8">
+              <span className="loading loading-spinner loading-lg"></span>
+            </div>
+          ) : strategies.length > 0 ? (
+            <div className="space-y-6">
+              {strategies.map((strategy) => (
+                <div
+                  key={strategy.id}
+                  className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow"
+                >
+                  <div className="card-body">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h2 className="card-title">{strategy.name}</h2>
+                        <div className="badge badge-ghost mt-1 mb-2">
+                          {strategy.frequency}
+                        </div>
+                        <p>{strategy.description}</p>
                       </div>
-                      <p>{strategy.description}</p>
+                      <button
+                        className={`btn ${strategy.subscribed ? "btn-error" : "btn-primary"}`}
+                        onClick={() => toggleSubscription(strategy.id)}
+                      >
+                        {strategy.subscribed ? "Unsubscribe" : "Subscribe"}
+                      </button>
                     </div>
-                    <button
-                      className={`btn ${strategy.subscribed ? "btn-error" : "btn-primary"}`}
-                      onClick={() => toggleSubscription(strategy.id)}
-                    >
-                      {strategy.subscribed ? "Unsubscribe" : "Subscribe"}
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="alert alert-info">No strategies available.</div>
+          )}
         </section>
       </main>
     </>
