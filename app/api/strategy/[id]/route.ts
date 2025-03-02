@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Strategy from "@/models/Strategy";
+import StrategySubscription from "@/models/StrategySubscription";
 import { ADMINS, verifyAuth } from "@/libs/auth";
 
 // GET - Retrieve a specific strategy by ID
@@ -110,6 +111,10 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized to delete this strategy" }, { status: 403 });
     }
 
+    // Delete all associated subscriptions
+    await StrategySubscription.deleteMany({ strategyId: id });
+
+    // Delete the strategy
     await Strategy.findByIdAndDelete(id);
     return NextResponse.json({ message: "Strategy deleted successfully" }, { status: 200 });
   } catch (error: any) {
