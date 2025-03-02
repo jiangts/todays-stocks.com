@@ -8,18 +8,19 @@ const strategySchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    description: {
+      type: String,
+      required: true,
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       default: null, // null for built-in strategies
       ref: 'User',
     },
-    isPublic: {
-      type: Boolean,
-      default: false,
-    },
-    description: {
+    visibility: {
       type: String,
-      required: true,
+      default: "private",
+      enum: ["private", "unlisted", "public", "for-sale"],
     },
   },
   {
