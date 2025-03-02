@@ -37,10 +37,7 @@ export async function GET(req: NextRequest) {
       if (user) {
         // Authenticated users can see public strategies OR their own strategies
         query = {
-          $or: [
-            { visibility: "public" },
-            { createdBy: user.id }
-          ]
+          $or: [{ visibility: "public" }, { createdBy: user.id }],
         };
       } else {
         // Non-authenticated users can only see public strategies

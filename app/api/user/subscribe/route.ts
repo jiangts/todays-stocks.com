@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     if (!strategyId || !mongoose.Types.ObjectId.isValid(strategyId)) {
       return NextResponse.json(
         { error: "Valid strategy ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -28,12 +28,12 @@ export async function POST(req: NextRequest) {
     await Subscription.updateOne(
       { userId: user.id, strategyId },
       { $setOnInsert: { subscribedAt: new Date() } },
-      { upsert: true }
+      { upsert: true },
     );
 
     return NextResponse.json(
       { success: true, message: "Successfully subscribed to strategy" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (e) {
     console.error(e);
@@ -41,12 +41,12 @@ export async function POST(req: NextRequest) {
     if (e.code === 11000) {
       return NextResponse.json(
         { error: "You are already subscribed to this strategy" },
-        { status: 409 }
+        { status: 409 },
       );
     }
     return NextResponse.json(
       { error: e.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -66,29 +66,32 @@ export async function DELETE(req: NextRequest) {
     if (!strategyId || !mongoose.Types.ObjectId.isValid(strategyId)) {
       return NextResponse.json(
         { error: "Valid strategy ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Remove subscription
-    const result = await Subscription.deleteOne({ userId: user.id, strategyId });
+    const result = await Subscription.deleteOne({
+      userId: user.id,
+      strategyId,
+    });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(
         { error: "Subscription not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     return NextResponse.json(
       { success: true, message: "Successfully unsubscribed from strategy" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (e) {
     console.error(e);
     return NextResponse.json(
       { error: e.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

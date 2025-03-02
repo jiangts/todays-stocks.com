@@ -7,7 +7,7 @@ import { ADMINS, verifyAuth } from "@/libs/auth";
 // GET - Retrieve a specific strategy by ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     await connectMongo();
@@ -16,7 +16,10 @@ export async function GET(
     const strategy = await Strategy.findById(id);
 
     if (!strategy) {
-      return NextResponse.json({ error: "Strategy not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Strategy not found" },
+        { status: 404 },
+      );
     }
 
     // Check authorization for non-public strategies
@@ -29,10 +32,15 @@ export async function GET(
         }
 
         const isAdmin = ADMINS.includes(user.email);
-        const isOwner = strategy.createdBy && strategy.createdBy.toString() === user.id.toString();
+        const isOwner =
+          strategy.createdBy &&
+          strategy.createdBy.toString() === user.id.toString();
 
         if (!isOwner && !isAdmin) {
-          return NextResponse.json({ error: "Unauthorized to view this strategy" }, { status: 401 });
+          return NextResponse.json(
+            { error: "Unauthorized to view this strategy" },
+            { status: 401 },
+          );
         }
       } catch (error) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -48,7 +56,7 @@ export async function GET(
 // PATCH - Update a strategy
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     await connectMongo();
@@ -65,17 +73,27 @@ export async function PATCH(
     const strategy = await Strategy.findById(id);
 
     if (!strategy) {
-      return NextResponse.json({ error: "Strategy not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Strategy not found" },
+        { status: 404 },
+      );
     }
 
     const isAdmin = ADMINS.includes(user.email);
-    const isOwner = strategy.createdBy && strategy.createdBy.toString() === user.id.toString();
+    const isOwner =
+      strategy.createdBy &&
+      strategy.createdBy.toString() === user.id.toString();
 
     if (!isOwner && !isAdmin) {
-      return NextResponse.json({ error: "Unauthorized to modify this strategy" }, { status: 403 });
+      return NextResponse.json(
+        { error: "Unauthorized to modify this strategy" },
+        { status: 403 },
+      );
     }
 
-    const updatedStrategy = await Strategy.findByIdAndUpdate(id, updateData, { new: true });
+    const updatedStrategy = await Strategy.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
     return NextResponse.json({ strategy: updatedStrategy }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -85,7 +103,7 @@ export async function PATCH(
 // DELETE - Remove a strategy
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     await connectMongo();
@@ -101,14 +119,22 @@ export async function DELETE(
     const strategy = await Strategy.findById(id);
 
     if (!strategy) {
-      return NextResponse.json({ error: "Strategy not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Strategy not found" },
+        { status: 404 },
+      );
     }
 
     const isAdmin = ADMINS.includes(user.email);
-    const isOwner = strategy.createdBy && strategy.createdBy.toString() === user.id.toString();
+    const isOwner =
+      strategy.createdBy &&
+      strategy.createdBy.toString() === user.id.toString();
 
     if (!isOwner && !isAdmin) {
-      return NextResponse.json({ error: "Unauthorized to delete this strategy" }, { status: 403 });
+      return NextResponse.json(
+        { error: "Unauthorized to delete this strategy" },
+        { status: 403 },
+      );
     }
 
     // Delete all associated subscriptions
@@ -116,7 +142,10 @@ export async function DELETE(
 
     // Delete the strategy
     await Strategy.findByIdAndDelete(id);
-    return NextResponse.json({ message: "Strategy deleted successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Strategy deleted successfully" },
+      { status: 200 },
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

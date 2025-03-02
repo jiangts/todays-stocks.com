@@ -20,25 +20,25 @@ export async function GET(req: NextRequest) {
           from: "strategies",
           localField: "strategyId",
           foreignField: "_id",
-          as: "strategy"
-        }
+          as: "strategy",
+        },
       },
       { $unwind: "$strategy" },
-      { $replaceRoot: { newRoot: "$strategy" } }
+      { $replaceRoot: { newRoot: "$strategy" } },
     ]);
 
     return NextResponse.json(
       {
         success: true,
-        strategies
+        strategies,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (e) {
     console.error(e);
     return NextResponse.json(
       { error: e.message || "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

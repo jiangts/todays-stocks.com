@@ -5,12 +5,12 @@ const strategySubscriptionSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     strategyId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Strategy',
+      ref: "Strategy",
       required: true,
     },
     subscribedAt: {
@@ -28,6 +28,10 @@ const strategySubscriptionSchema = new mongoose.Schema(
 strategySubscriptionSchema.plugin(toJSON);
 
 // Add a compound index to prevent duplicate subscriptions
-strategySubscriptionSchema.index({ userId: 1, strategyId: 1 }, { unique: true });
+strategySubscriptionSchema.index(
+  { userId: 1, strategyId: 1 },
+  { unique: true },
+);
 
-export default mongoose.models.StrategySubscription || mongoose.model("StrategySubscription", strategySubscriptionSchema);
+export default mongoose.models.StrategySubscription ||
+  mongoose.model("StrategySubscription", strategySubscriptionSchema);
