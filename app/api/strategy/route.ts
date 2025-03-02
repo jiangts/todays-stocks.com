@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       }
     } else {
       // For non-admin users, try to get their auth
-      const { user } = await verifyAuth().catch(() => ({ user: null }));
+      const { user } = await verifyAuth().catch(() => ({ user: null as any }));
 
       if (user) {
         // Authenticated users can see public strategies OR their own strategies
