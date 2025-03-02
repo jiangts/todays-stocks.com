@@ -1,3 +1,3 @@
 export * from "./config";
-export * from './strategy';
-export * from './subscription';
+export * from "./strategy";
+export * from "./subscription";

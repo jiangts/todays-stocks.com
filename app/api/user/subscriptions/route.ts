@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import StrategySubscription from "@/models/StrategySubscription";
 import { verifyAuth } from "@/libs/auth";
+import mongoose from "mongoose";
 
 // GET endpoint to retrieve all strategies a user has subscribed to
 export async function GET(req: NextRequest) {
@@ -14,7 +15,12 @@ export async function GET(req: NextRequest) {
 
     // Get user's subscribed strategies using aggregation pipeline
     const strategies = await StrategySubscription.aggregate([
-      { $match: { userId: user.id } },
+      {
+        $match: {
+          // ObjectId conversion is needed!
+          userId: new mongoose.Types.ObjectId(user.id),
+        },
+      },
       {
         $lookup: {
           from: "strategies",
@@ -30,12 +36,14 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        strategies,
+        strategies: strategies.map((strategy) => ({
+          ...strategy,
+          id: strategy._id,
+        })),
       },
       { status: 200 },
     );
   } catch (e) {
-    console.error(e);
     return NextResponse.json(
       { error: e.message || "Internal server error" },
       { status: 500 },

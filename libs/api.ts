@@ -61,21 +61,21 @@ export const fetcher = async (url: string, options: FetchParams = {}) => {
   if (params) {
     const queryString = qs.stringify(params, {
       skipNulls: true,
-      addQueryPrefix: !url.includes('?'),
-      arrayFormat: 'brackets'
+      addQueryPrefix: !url.includes("?"),
+      arrayFormat: "brackets",
     });
     if (queryString) {
-      url = `${url}${url.includes('?') ? '&' : ''}${queryString}`;
+      url = `${url}${url.includes("?") ? "&" : ""}${queryString}`;
     }
   }
 
   const requestOptions: RequestInit = {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...headers,
     },
-    credentials: 'include', // Include credentials for auth cookies
+    credentials: "include", // Include credentials for auth cookies
   };
 
   if (body) {
@@ -87,7 +87,7 @@ export const fetcher = async (url: string, options: FetchParams = {}) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.error || 'An error occurred');
+    throw new Error(data.error || "An error occurred");
   }
 
   return data;
