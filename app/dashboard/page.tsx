@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 import ButtonAccount from "@/components/ButtonAccount";
 import Image from "next/image";
@@ -17,33 +17,56 @@ export const dynamic = "force-dynamic";
 type StrategyWithSubscription = Strategy & { subscribed: boolean };
 
 export default function Dashboard() {
-  // Fetch strategies using SWR
+  // State to hold merged strategy data
+  const [mergedStrategies, setMergedStrategies] = useState<
+    StrategyWithSubscription[]
+  >([]);
+
+  // Fetch user's subscribed strategies
+  const { data: subscribedStrategies = [], error: subscriptionError } = useSWR<
+    Strategy[]
+  >("/api/user/subscriptions", (url: string) =>
+    fetcher(url).then((data) => data.strategies || []),
+  );
+
+  // Fetch all available strategies
   const {
     data: strategies = [],
     error,
     isLoading,
     mutate,
-  } = useSWR<StrategyWithSubscription[]>(
+  } = useSWR<Strategy[]>(
     "/api/strategy",
-    (url) => fetcher(url).then((data) => {
-      // Add local 'subscribed' status to each strategy
-      // In a real app, you would get this from user preferences
-      return data.strategies.map((strategy: Strategy) => ({
-        ...strategy,
-        subscribed: false, // Default to not subscribed
-      }));
-    }),
+    (url) => fetcher(url).then((data) => data.strategies),
     {
       onError: (err) => {
         console.error("Error fetching strategies:", err);
         toast.error("Failed to load strategies");
       },
-    }
+    },
   );
+
+  // Merge strategies with subscription status whenever either data changes
+  useEffect(() => {
+    if (strategies.length > 0) {
+      // Create set of subscribed strategy IDs for quick lookup
+      const subscribedIds = new Set(
+        subscribedStrategies.map((strategy) => strategy.id),
+      );
+
+      // Map through all strategies and mark subscription status
+      const updated = strategies.map((strategy) => ({
+        ...strategy,
+        subscribed: subscribedIds.has(strategy.id),
+      }));
+
+      setMergedStrategies(updated);
+    }
+  }, [strategies, subscribedStrategies]);
 
   const toggleSubscription = async (id: string) => {
     // Update local state immediately for better UX
-    const updatedStrategies = strategies.map((strategy) => {
+    const updatedStrategies = mergedStrategies.map((strategy) => {
       if (strategy.id === id) {
         return { ...strategy, subscribed: !strategy.subscribed };
       }
@@ -51,24 +74,26 @@ export default function Dashboard() {
     });
 
     // Optimistic update
-    mutate(updatedStrategies, false);
+    setMergedStrategies(updatedStrategies);
 
-    const strategy = strategies.find(s => s.id === id);
+    const strategy = mergedStrategies.find((s) => s.id === id);
 
     if (strategy) {
       const newStatus = !strategy.subscribed;
       try {
         if (newStatus) {
           // Subscribe to strategy
-          await apiClient.post('/user/subscribe', { strategyId: id });
+          await apiClient.post("/user/subscribe", { strategyId: id });
           toast.success(`Subscribed to ${strategy.name}`);
         } else {
           // Unsubscribe from strategy
-          await apiClient.delete('/user/subscribe', {
-            data: { strategyId: id }
+          await apiClient.delete("/user/subscribe", {
+            data: { strategyId: id },
           });
           toast.success(`Unsubscribed from ${strategy.name}`);
         }
+        // Refresh the data after a successful update
+        await mutate();
       } catch (error) {
         // Revert on error - the API client will handle displaying the error toast
         console.error("Subscription update failed:", error);
@@ -125,14 +150,20 @@ export default function Dashboard() {
 
           <div className="flex justify-between items-center">
             <p className="text-sm text-gray-500">
-              {isLoading ? "Loading strategies..." : `${strategies.length} strategies available`}
+              {isLoading
+                ? "Loading strategies..."
+                : `${strategies.length} strategies available`}
             </p>
             <button
               className="btn btn-sm btn-outline"
               onClick={() => mutate()}
               disabled={isLoading}
             >
-              {isLoading ? <span className="loading loading-spinner loading-xs"></span> : "Refresh"}
+              {isLoading ? (
+                <span className="loading loading-spinner loading-xs"></span>
+              ) : (
+                "Refresh"
+              )}
             </button>
           </div>
 
@@ -160,9 +191,9 @@ export default function Dashboard() {
                 </div>
               ))}
             </div>
-          ) : strategies.length > 0 ? (
+          ) : mergedStrategies.length > 0 ? (
             <div className="space-y-6">
-              {strategies.map((strategy) => (
+              {mergedStrategies.map((strategy) => (
                 <div
                   key={strategy.id}
                   className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow"
