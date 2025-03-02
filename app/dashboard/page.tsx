@@ -8,6 +8,7 @@ import { Strategy } from "@/types";
 import apiClient from "@/libs/api";
 import Header from "./components/Header";
 import StrategyList from "./components/StrategyList";
+import ShareWithFriends from "@/components/ShareWithFriends";
 
 export const dynamic = "force-dynamic";
 
@@ -126,6 +127,8 @@ export default function Dashboard() {
             error={error}
             onToggleSubscription={toggleSubscription}
           />
+
+          {/* <ShareWithFriends className="mt-8" /> */}
         </section>
       </main>
     </>
