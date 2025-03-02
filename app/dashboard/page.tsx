@@ -154,17 +154,6 @@ export default function Dashboard() {
                 ? "Loading strategies..."
                 : `${strategies.length} strategies available`}
             </p>
-            <button
-              className="btn btn-sm btn-outline"
-              onClick={() => mutate()}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <span className="loading loading-spinner loading-xs"></span>
-              ) : (
-                "Refresh"
-              )}
-            </button>
           </div>
 
           {error && (
