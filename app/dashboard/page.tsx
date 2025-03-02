@@ -10,6 +10,7 @@ import config from "@/config";
 import toast from "react-hot-toast";
 import { fetcher } from "@/libs/api";
 import { Strategy } from "@/types";
+import apiClient from "@/libs/api";
 
 export const dynamic = "force-dynamic";
 
@@ -57,22 +58,20 @@ export default function Dashboard() {
     if (strategy) {
       const newStatus = !strategy.subscribed;
       try {
-        // In a real app, you would have an API endpoint to handle subscriptions
-        // await fetch(`/api/subscriptions/${id}`, {
-        //   method: 'POST',
-        //   body: JSON.stringify({ subscribed: newStatus }),
-        //   headers: { 'Content-Type': 'application/json' }
-        // });
-
-        // For now, just show a toast message
         if (newStatus) {
+          // Subscribe to strategy
+          await apiClient.post('/user/subscribe', { strategyId: id });
           toast.success(`Subscribed to ${strategy.name}`);
         } else {
+          // Unsubscribe from strategy
+          await apiClient.delete('/user/subscribe', {
+            data: { strategyId: id }
+          });
           toast.success(`Unsubscribed from ${strategy.name}`);
         }
       } catch (error) {
-        // Revert on error
-        toast.error("Failed to update subscription");
+        // Revert on error - the API client will handle displaying the error toast
+        console.error("Subscription update failed:", error);
         mutate(); // Refetch to get the correct state
       }
     }
@@ -126,7 +125,7 @@ export default function Dashboard() {
 
           <div className="flex justify-between items-center">
             <p className="text-sm text-gray-500">
-              {strategies.length} strategies available
+              {isLoading ? "Loading strategies..." : `${strategies.length} strategies available`}
             </p>
             <button
               className="btn btn-sm btn-outline"
@@ -144,8 +143,22 @@ export default function Dashboard() {
           )}
 
           {isLoading ? (
-            <div className="flex justify-center py-8">
-              <span className="loading loading-spinner loading-lg"></span>
+            <div className="space-y-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="card bg-base-100 shadow-lg">
+                  <div className="card-body">
+                    <div className="flex justify-between items-start">
+                      <div className="w-full">
+                        <div className="skeleton h-8 w-1/3 mb-2"></div>
+                        <div className="skeleton h-4 w-16 mb-4"></div>
+                        <div className="skeleton h-4 w-full mb-2"></div>
+                        <div className="skeleton h-4 w-5/6"></div>
+                      </div>
+                      <div className="skeleton h-10 w-28"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : strategies.length > 0 ? (
             <div className="space-y-6">
