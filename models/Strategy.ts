@@ -15,13 +15,21 @@ const strategySchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       default: null, // null for built-in strategies
-      ref: 'User',
+      ref: "User",
+    },
+    frequency: {
+      type: String,
+      enum: ["daily", "weekly", "monthly"],
     },
     visibility: {
       type: String,
       default: "private",
       enum: ["private", "unlisted", "public", "for-sale"],
     },
+    // rules: {
+    //   type: [String],
+    //   default: [],
+    // },
   },
   {
     timestamps: true,
@@ -32,4 +40,5 @@ const strategySchema = new mongoose.Schema(
 // add plugin that converts mongoose to json
 strategySchema.plugin(toJSON);
 
-export default mongoose.models.Strategy || mongoose.model("Strategy", strategySchema);
+export default mongoose.models.Strategy ||
+  mongoose.model("Strategy", strategySchema);
