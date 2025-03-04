@@ -41,11 +41,14 @@ export async function GET(req: NextRequest) {
 
       // Find all subscriptions for the strategy and populate user data
       const subscriptions = await StrategySubscription.find({ strategyId })
-        .populate('userId')
+        .populate("userId")
         .lean();
 
       // Extract user data from subscriptions
-      const subscribers = subscriptions.map(sub => ({ ...sub.userId, subscribedAt: sub.subscribedAt }));
+      const subscribers = subscriptions.map((sub) => ({
+        ...sub.userId,
+        subscribedAt: sub.subscribedAt,
+      }));
 
       return NextResponse.json({ subscribers });
     } else {

@@ -25,8 +25,12 @@ interface Subscriber {
 
 export default function StrategiesTab() {
   const [openStrategyId, setOpenStrategyId] = useState<string | null>(null);
-  const [subscribersMap, setSubscribersMap] = useState<Record<string, Subscriber[]>>({});
-  const [loadingSubscribers, setLoadingSubscribers] = useState<Record<string, boolean>>({});
+  const [subscribersMap, setSubscribersMap] = useState<
+    Record<string, Subscriber[]>
+  >({});
+  const [loadingSubscribers, setLoadingSubscribers] = useState<
+    Record<string, boolean>
+  >({});
 
   const {
     data: strategies = [],
@@ -47,11 +51,11 @@ export default function StrategiesTab() {
   // Function to load subscribers for a specific strategy
   const loadSubscribers = async (strategyId: string) => {
     try {
-      setLoadingSubscribers(prev => ({ ...prev, [strategyId]: true }));
+      setLoadingSubscribers((prev) => ({ ...prev, [strategyId]: true }));
 
       const params = new URLSearchParams({
         type: "subscribers",
-        strategyId
+        strategyId,
       }).toString();
 
       const response = await fetch(`/api/admin?${params}`);
@@ -61,15 +65,18 @@ export default function StrategiesTab() {
       }
 
       const data = await response.json();
-      setSubscribersMap(prev => ({
+      setSubscribersMap((prev) => ({
         ...prev,
-        [strategyId]: data.subscribers || []
+        [strategyId]: data.subscribers || [],
       }));
     } catch (err) {
-      console.error(`Error fetching subscribers for strategy ${strategyId}:`, err);
+      console.error(
+        `Error fetching subscribers for strategy ${strategyId}:`,
+        err,
+      );
       toast.error("Failed to load subscribers");
     } finally {
-      setLoadingSubscribers(prev => ({ ...prev, [strategyId]: false }));
+      setLoadingSubscribers((prev) => ({ ...prev, [strategyId]: false }));
     }
   };
 
@@ -117,7 +124,9 @@ export default function StrategiesTab() {
           {isLoading ? "Loading..." : "Refresh"}
         </button>
       </div>
-      <InitializeStrategiesButton onSuccess={() => mutate()} />
+      <div className="mb-4">
+        <InitializeStrategiesButton onSuccess={() => mutate()} />
+      </div>
 
       {error && (
         <div className="alert alert-error mb-4">
@@ -133,11 +142,15 @@ export default function StrategiesTab() {
         <div className="space-y-4">
           {strategies.map((strategy) => {
             const subscribers = subscribersMap[strategy._id] || [];
-            const isLoadingSubscribers = loadingSubscribers[strategy._id] || false;
+            const isLoadingSubscribers =
+              loadingSubscribers[strategy._id] || false;
             const subscriberCount = subscribers.length;
 
             return (
-              <div key={strategy._id} className="collapse collapse-arrow bg-base-200">
+              <div
+                key={strategy._id}
+                className="collapse collapse-arrow bg-base-200"
+              >
                 <input
                   type="checkbox"
                   checked={openStrategyId === strategy._id}
@@ -147,25 +160,35 @@ export default function StrategiesTab() {
                   <div className="flex justify-between items-center">
                     <div>
                       <span className="font-bold mr-2">{strategy.name}</span>
-                      <span className={`badge ${strategy.visibility === "public" ? "badge-success" : strategy.visibility === "for-sale" ? "badge-warning" : strategy.visibility === "unlisted" ? "badge-info" : "badge-ghost"} mx-2`}>
+                      <span
+                        className={`badge ${strategy.visibility === "public" ? "badge-success" : strategy.visibility === "for-sale" ? "badge-warning" : strategy.visibility === "unlisted" ? "badge-info" : "badge-ghost"} mx-2`}
+                      >
                         {strategy.visibility}
                       </span>
-                      <span className={`badge ${getFrequencyBadgeColor(strategy.frequency)} mx-2`}>
+                      <span
+                        className={`badge ${getFrequencyBadgeColor(strategy.frequency)} mx-2`}
+                      >
                         {strategy.frequency || "N/A"}
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs text-gray-500">
-                        {strategy.createdBy ? "Created by user" : "System generated"} • {formatDate(strategy.createdAt)}
+                        {strategy.createdBy
+                          ? "Created by user"
+                          : "System generated"}{" "}
+                        • {formatDate(strategy.createdAt)}
                       </span>
-                      <span className="badge badge-sm">{subscriberCount} subscribers</span>
+                      {/* Only show subscriber count when accordion is open and data is loaded */}
+                      {subscribersMap[strategy._id] && (
+                        <span className="badge badge-sm">
+                          {subscribers.length} subscribers
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="collapse-content">
-                  <div className="mb-4">
-                    {strategy.description}
-                  </div>
+                  <div className="mb-4">{strategy.description}</div>
 
                   <div className="divider">Subscribers</div>
 
@@ -195,7 +218,9 @@ export default function StrategiesTab() {
                       </table>
                     </div>
                   ) : (
-                    <div className="alert alert-info">No subscribers for this strategy.</div>
+                    <div className="alert alert-info">
+                      No subscribers for this strategy.
+                    </div>
                   )}
                 </div>
               </div>
