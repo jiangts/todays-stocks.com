@@ -3,6 +3,7 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import User from "@/models/User";
 import Strategy from "@/models/Strategy";
+import StrategySubscription from "@/models/StrategySubscription";
 import { verifyAdminAuth } from "@/libs/auth";
 
 // GET endpoint to fetch all leads
@@ -29,6 +30,24 @@ export async function GET(req: NextRequest) {
       // Fetch all strategies
       const strategies = await Strategy.find({}).sort({ createdAt: -1 }).lean();
       return NextResponse.json({ strategies });
+    } else if (type === "subscribers") {
+      const strategyId = searchParams.get("strategyId");
+      if (!strategyId) {
+        return NextResponse.json(
+          { error: "strategyId parameter is required" },
+          { status: 400 },
+        );
+      }
+
+      // Find all subscriptions for the strategy and populate user data
+      const subscriptions = await StrategySubscription.find({ strategyId })
+        .populate('userId')
+        .lean();
+
+      // Extract user data from subscriptions
+      const subscribers = subscriptions.map(sub => ({ ...sub.userId, subscribedAt: sub.subscribedAt }));
+
+      return NextResponse.json({ subscribers });
     } else {
       return NextResponse.json(
         { error: "Invalid type parameter" },
