@@ -30,10 +30,10 @@ interface StockData {
 
 export default function AnalysisPage({ params }: { params: { updateId: string } }) {
   const [data, setData] = useState<StockData[]>([]);
+  const [picks, setPicks] = useState<string>(null);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
 
-  console.log("params", params, pathname);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,6 +58,23 @@ export default function AnalysisPage({ params }: { params: { updateId: string } 
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchPicks = async () => {
+      try {
+        const response = await fetch(
+          `https://api.clayos.ai/web/stock_losers/${params.updateId}/stock_picks.md`,
+        );
+        const picks = await response.text();
+        // Parse the search string back to array if needed
+        setPicks(picks);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchPicks();
   }, []);
 
   useEffect(() => {
