@@ -1,0 +1,29 @@
+import { ReactNode } from "react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/libs/next-auth";
+import config from "@/config";
+
+// This is a server-side component to ensure the user is logged in.
+// If not, it will redirect to the login page.
+// It's applied to all subpages of /dashboard in /app/dashboard/*** pages
+// You can also add custom static UI elements like a Navbar, Sidebar, Footer, etc..
+// See https://shipfa.st/docs/tutorials/private-page
+export default async function LayoutPrivate({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { id: string };
+}) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    const callbackUrl = encodeURIComponent(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/analysis/${params.id}`,
+    );
+    redirect(`${config.auth.loginUrl}?callbackUrl=${callbackUrl}`);
+  }
+
+  return <>{children}</>;
+}
