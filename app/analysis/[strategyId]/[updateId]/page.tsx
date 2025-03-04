@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 import { Icon } from "@mdi/react";
-import { mdiMenu } from "@mdi/js";
+import { mdiMenu, mdiStar } from "@mdi/js";
 
 interface StockData {
   Symbol: string;
@@ -135,6 +135,24 @@ export default function AnalysisPage({ params }: { params: { updateId: string } 
 
           {/* Main content */}
           <div className="flex-1 p-6">
+            {/* Stock Picks Summary */}
+            {picks && (
+              <div id="stock-picks" className="p-5 bg-base-100 dark:bg-gray-800 rounded-lg shadow-lg mb-6">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
+                 <Icon path={mdiStar} size={1} className="text-amber-300" />
+                 AI Stock Picks
+                </h2>
+                <div
+                  className="prose dark:prose-invert max-w-none"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(
+                      marked(picks, { breaks: true }) as string,
+                    ),
+                  }}
+                />
+              </div>
+            )}
+
             {data.map((stock) => (
               <div
                 key={stock.Symbol}
@@ -296,6 +314,17 @@ export default function AnalysisPage({ params }: { params: { updateId: string } 
         <div className="drawer-side z-20">
           <label htmlFor="menu-drawer" className="drawer-overlay"></label>
           <ul className="menu bg-base-100 dark:bg-gray-800 w-56 border-r border-gray-300 dark:border-gray-700">
+            {picks && (
+              <li>
+                <a
+                  href="#stock-picks"
+                  className="text-gray-900 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700"
+                >
+                  AI Stock Picks
+                  <Icon path={mdiStar} size={1} className="text-amber-300" />
+                </a>
+              </li>
+            )}
             {data.map((stock) => (
               <li key={stock.Symbol}>
                 <a
