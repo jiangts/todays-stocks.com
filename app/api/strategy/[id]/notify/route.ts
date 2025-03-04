@@ -10,11 +10,11 @@ export async function POST(
 ) {
   try {
     await connectMongo();
-    const { user } = await verifyAuth();
+    // const { user } = await verifyAuth();
 
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // if (!user) {
+    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // }
 
     const id = params.id;
 
