@@ -35,31 +35,39 @@ export async function POST(
       .lean();
 
     // Extract subscriber information
-    const subscribers = subscriptions.map((sub) => ({
-      name: sub.userId.name,
-      email: sub.userId.email,
-    })).filter(subscriber => subscriber.email === 'jiangtsa@gmail.com');
-
+    const subscribers = subscriptions
+      .map((sub) => ({
+        name: sub.userId.name,
+        email: sub.userId.email,
+      }))
+      .filter((subscriber) => subscriber.email === "jiangtsa@gmail.com");
 
     // Send email to each subscriber
-    const emailResults = await Promise.allSettled(subscribers.map(subscriber => {
-      return sendEmail({
-        to: subscriber.email,
-        subject: `New update for ${strategy.name}`,
-        text: `Hello ${subscriber.name},\n\nA new update has been posted for the strategy ${strategy.name}. Visit the platform to view the latest content.\n\nRegards,\nTeam`,
-        html: `<p>Hello ${subscriber.name},</p><p>A new update has been posted for the strategy ${strategy.name}. Visit the platform to view the latest content.</p><p>Regards,<br>Team</p>`
-      })
-    }));
+    const emailResults = await Promise.allSettled(
+      subscribers.map((subscriber) => {
+        return sendEmail({
+          to: subscriber.email,
+          subject: `New update for ${strategy.name}`,
+          text: `Hello ${subscriber.name},\n\nA new update has been posted for the strategy ${strategy.name}. Visit the platform to view the latest content.\n\nRegards,\nTeam`,
+          html: `<p>Hello ${subscriber.name},</p><p>A new update has been posted for the strategy ${strategy.name}. Visit the platform to view the latest content.</p><p>Regards,<br>Team</p>`,
+        });
+      }),
+    );
 
     // Check for any failed email deliveries
-    const failedEmails = emailResults.filter(result => result.status === 'rejected');
+    const failedEmails = emailResults.filter(
+      (result) => result.status === "rejected",
+    );
 
-    return NextResponse.json({
-      success: true,
-      totalSubscribers: subscribers.length,
-      emailsSent: subscribers.length - failedEmails.length,
-      failedEmails: failedEmails.length
-    }, { status: 200 });
+    return NextResponse.json(
+      {
+        success: true,
+        totalSubscribers: subscribers.length,
+        emailsSent: subscribers.length - failedEmails.length,
+        failedEmails: failedEmails.length,
+      },
+      { status: 200 },
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

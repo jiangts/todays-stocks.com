@@ -28,16 +28,17 @@ interface StockData {
   }>;
 }
 
-export default function AnalysisPage({ params }: { params: { id: string } }) {
+export default function AnalysisPage({ params }: { params: { updateId: string } }) {
   const [data, setData] = useState<StockData[]>([]);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
 
+  console.log("params", params, pathname);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://api.clayos.ai/web/stock_losers/2025-02-11/output.json",
+          `https://api.clayos.ai/web/stock_losers/${params.updateId}/output.json`,
         );
         const result = await response.json();
         // Parse the search string back to array if needed
