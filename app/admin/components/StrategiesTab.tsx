@@ -110,6 +110,18 @@ export default function StrategiesTab() {
     setOpenStrategyId(openStrategyId === strategyId ? null : strategyId);
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        toast.success("ID copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+        toast.error("Failed to copy ID");
+      });
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
@@ -188,6 +200,21 @@ export default function StrategiesTab() {
                   </div>
                 </div>
                 <div className="collapse-content">
+                  <div className="text-xs text-gray-500 mt-1 inline-flex items-center">
+                    <button
+                      className="ml-1 p-1 hover:bg-gray-200 rounded-full transition-colors"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        copyToClipboard(strategy._id);
+                      }}
+                    >
+                      ID:
+                      <span className="font-mono bg-gray-100 px-1 rounded mx-1">
+                        {strategy._id}
+                      </span>
+                    </button>
+                  </div>
                   <div className="mb-4">{strategy.description}</div>
 
                   <div className="divider">Subscribers</div>
