@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import { Icon } from "@mdi/react";
+import { mdiMenu } from "@mdi/js";
 
 interface StockData {
   Symbol: string;
@@ -79,7 +81,7 @@ export default function AnalysisPage({ params }: { params: { id: string } }) {
     const onHashChange = (e: HashChangeEvent) => {
       e.preventDefault();
       scrollToHash();
-    }
+    };
 
     // Add event listener for hash changes
     window.addEventListener("hashchange", onHashChange);
@@ -107,19 +109,7 @@ export default function AnalysisPage({ params }: { params: { id: string } }) {
           <div className="w-full navbar bg-base-100 dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700 sticky top-0 z-10">
             <div className="flex-none lg:hidden">
               <label htmlFor="menu-drawer" className="btn btn-square btn-ghost">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  className="inline-block w-6 h-6 stroke-current"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  ></path>
-                </svg>
+                <Icon path={mdiMenu} size={1} />
               </label>
             </div>
             <div className="flex-1 px-2 mx-2 font-bold">Daily Stock Losers</div>
@@ -220,7 +210,7 @@ export default function AnalysisPage({ params }: { params: { id: string } }) {
                 <div className="mt-5">
                   <div className="collapse collapse-arrow bg-gray-100 dark:bg-gray-700 mt-2">
                     <input type="checkbox" />
-                    <div className="collapse-title text-md font-medium text-gray-900 dark:text-gray-100">
+                    <div className="collapse-title text-md font-medium text-gray-900 dark:text-gray-100 flex items-center">
                       AI Summary
                     </div>
                     <div className="collapse-content">
@@ -234,7 +224,7 @@ export default function AnalysisPage({ params }: { params: { id: string } }) {
                 <div className="mt-5">
                   <div className="collapse collapse-arrow bg-gray-100 dark:bg-gray-700 mt-2">
                     <input type="checkbox" />
-                    <div className="collapse-title text-md font-medium text-gray-900 dark:text-gray-100">
+                    <div className="collapse-title text-md font-medium text-gray-900 dark:text-gray-100 flex items-center">
                       Why is {stock.Symbol} Down?
                     </div>
                     <div className="collapse-content">
@@ -253,7 +243,7 @@ export default function AnalysisPage({ params }: { params: { id: string } }) {
                 <div className="mt-5">
                   <div className="collapse collapse-arrow bg-gray-100 dark:bg-gray-700 mt-2">
                     <input type="checkbox" />
-                    <div className="collapse-title text-md font-medium text-gray-900 dark:text-gray-100">
+                    <div className="collapse-title text-md font-medium text-gray-900 dark:text-gray-100 flex items-center">
                       News
                     </div>
                     <div className="collapse-content space-y-3">
