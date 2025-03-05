@@ -14,13 +14,13 @@ export default async function LayoutPrivate({
   params,
 }: {
   children: ReactNode;
-  params: { strategyId: string; updateId: string };
+  params: { strategyId: string, updateId: string };
 }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
     const callbackUrl = encodeURIComponent(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/analysis/${params.strategyId}/${params.updateId}`,
+      `/analysis/${params.strategyId}/${params.updateId}`,
     );
     redirect(`${config.auth.loginUrl}?callbackUrl=${callbackUrl}`);
   }
