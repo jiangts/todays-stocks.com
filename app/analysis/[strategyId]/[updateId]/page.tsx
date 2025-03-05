@@ -135,10 +135,21 @@ export default function AnalysisPage({
               </label>
             </div>
             <div className="flex-1 px-2 mx-2 font-bold">Daily Stock Losers</div>
+            <div className="text-sm px-2 text-gray-600 dark:text-gray-400">
+              {params.updateId}
+            </div>
           </div>
 
           {/* Main content */}
           <div className="flex-1 p-6">
+            {/* Disclaimer */}
+            <div className="mb-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-amber-800 dark:text-amber-200">
+              <p className="text-sm font-medium">
+                Disclaimer: This newsletter is for informational purposes only
+                and does not constitute financial advice. Always conduct your
+                own research before making any investment decisions.
+              </p>
+            </div>
             {/* Stock Picks Summary */}
             {picks && (
               <div

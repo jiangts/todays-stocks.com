@@ -14,7 +14,7 @@ export default async function LayoutPrivate({
   params,
 }: {
   children: ReactNode;
-  params: { strategyId: string, updateId: string };
+  params: { strategyId: string; updateId: string };
 }) {
   const session = await getServerSession(authOptions);
 
