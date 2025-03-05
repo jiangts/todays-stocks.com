@@ -12,17 +12,20 @@ export const sendEmail = async ({
   subject,
   text,
   html,
+  bcc,
   replyTo,
 }: {
   to: string | string[];
   subject: string;
   text: string;
   html: string;
+  bcc?: string | string[];
   replyTo?: string | string[];
 }) => {
   const { data, error } = await resend.emails.send({
     from: config.resend.fromAdmin,
     to,
+    bcc,
     subject,
     text,
     html,
