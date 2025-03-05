@@ -28,7 +28,11 @@ interface StockData {
   }>;
 }
 
-export default function AnalysisPage({ params }: { params: { updateId: string } }) {
+export default function AnalysisPage({
+  params,
+}: {
+  params: { updateId: string };
+}) {
   const [data, setData] = useState<StockData[]>([]);
   const [picks, setPicks] = useState<string>(null);
   const [loading, setLoading] = useState(true);
@@ -137,10 +141,13 @@ export default function AnalysisPage({ params }: { params: { updateId: string } 
           <div className="flex-1 p-6">
             {/* Stock Picks Summary */}
             {picks && (
-              <div id="stock-picks" className="p-5 bg-base-100 dark:bg-gray-800 rounded-lg shadow-lg mb-6">
+              <div
+                id="stock-picks"
+                className="p-5 bg-base-100 dark:bg-gray-800 rounded-lg shadow-lg mb-6"
+              >
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
-                 <Icon path={mdiStar} size={1} className="text-amber-300" />
-                 AI Stock Picks
+                  <Icon path={mdiStar} size={1} className="text-amber-300" />
+                  AI Stock Picks
                 </h2>
                 <div
                   className="prose dark:prose-invert max-w-none"
