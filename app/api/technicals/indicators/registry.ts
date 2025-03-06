@@ -5,6 +5,15 @@ import { SMAIndicator } from "./sma";
 import { EMAIndicator } from "./ema";
 import { RSIIndicator } from "./rsi";
 import { MACDIndicator } from "./macd";
+import { BollingerBandsIndicator } from "./bollinger-bands";
+import { StochasticIndicator } from "./stochastic";
+import { OBVIndicator } from "./obv";
+import { VWAPIndicator } from "./vwap";
+import { CCIIndicator } from "./cci";
+import { CMFIndicator } from "./cmf";
+import { WilliamsRIndicator } from "./williams-r";
+import { ADLineIndicator } from "./ad-line";
+import { IchimokuIndicator } from "./ichimoku";
 
 export class IndicatorRegistry {
   private static instance: IndicatorRegistry;
@@ -22,6 +31,15 @@ export class IndicatorRegistry {
     this.register(new EMAIndicator());
     this.register(new RSIIndicator());
     this.register(new MACDIndicator());
+    this.register(new BollingerBandsIndicator());
+    this.register(new StochasticIndicator());
+    this.register(new OBVIndicator());
+    this.register(new VWAPIndicator());
+    this.register(new CCIIndicator());
+    this.register(new CMFIndicator());
+    this.register(new WilliamsRIndicator());
+    this.register(new ADLineIndicator());
+    this.register(new IchimokuIndicator());
   }
 
   public static getInstance(): IndicatorRegistry {
