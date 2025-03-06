@@ -3,6 +3,8 @@ import { EMAIndicator } from "./ema";
 
 export class MACDIndicator implements TechnicalIndicator {
   name = "MACD";
+  description = "Shows the relationship between two moving averages of closing prices.";
+  formula = "MACD = EMA_{12} - EMA_{26}. A \\text{signal line} is typically computed as \\text{Signal Line} = EMA_9(MACD).";
   defaultConfig: IndicatorConfig = {
     fastPeriod: 12,
     slowPeriod: 26,

@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class ADLineIndicator implements TechnicalIndicator {
   name = "AD_LINE";
+  description = "Tracks supply and demand.";
+  formula = "A/D = A/D_{t-1} + \\left( \\frac{(C_t - L_t) - (H_t - C_t)}{H_t - L_t} \\right) \\times V_t.";
   defaultConfig: IndicatorConfig = {};
 
   calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {

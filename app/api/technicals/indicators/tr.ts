@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator } from "../types";
 
 export class TRIndicator implements TechnicalIndicator {
   name = "TR";
+  description = "True Range";
+  formula = "TR = max(H_t - L_t, |H_t - C_{t-1}|, |L_t - C_{t-1}|)";
 
   calculate(data: Quote[]): (number | null)[] {
     if (data.length < 2) {

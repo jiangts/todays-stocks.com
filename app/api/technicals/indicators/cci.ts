@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class CCIIndicator implements TechnicalIndicator {
   name = "CCI";
+  description = "Measures how far the price is from its statistical mean.";
+  formula = "CCI = \\frac{P_t - SMA_n(P_t)}{0.015 \\cdot \\sigma_P} where P_t is the typical price \\frac{H_t + L_t + C_t}{3}, \\sigma_P is the standard deviation of P_t over n periods.";
   defaultConfig: IndicatorConfig = {
     period: 20,
   };

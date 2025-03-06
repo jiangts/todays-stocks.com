@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class RSIIndicator implements TechnicalIndicator {
   name = "RSI";
+  description = "Measures the strength of price momentum.";
+  formula = "RSI = 100 - \\frac{100}{1 + RS} where RS = \\frac{\\text{Average Gain over } n \\text{ periods}}{\\text{Average Loss over } n \\text{ periods}}. Gains and losses are based on differences between successive closing prices. A common choice for n is 14 days.";
   defaultConfig: IndicatorConfig = { period: 14 };
 
   calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {

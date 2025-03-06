@@ -13,6 +13,8 @@ export interface IndicatorConfig {
 
 export interface TechnicalIndicator {
   name: string;
+  description: string;
+  formula: string;
   calculate: (data: Quote[], config?: IndicatorConfig) => (number | null)[];
   defaultConfig?: IndicatorConfig;
 }

@@ -2,7 +2,9 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 import { SMAIndicator } from "./sma";
 
 export class StochasticIndicator implements TechnicalIndicator {
-  name = "STOCH";
+  name = "STOCHASTIC";
+  description = "Measures momentum relative to recent highs and lows.";
+  formula = "\\%K = \\frac{C_t - L_n}{H_n - L_n} \\times 100 where H_n and L_n are the highest and lowest prices in the last n periods, C_t is the most recent closing price. The smoothed version is \\%D = SMA_3(\\%K) where %D is a 3-day moving average of %K.";
   defaultConfig: IndicatorConfig = {
     kPeriod: 14,
     dPeriod: 3,

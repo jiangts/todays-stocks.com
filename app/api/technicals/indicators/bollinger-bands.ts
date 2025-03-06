@@ -3,6 +3,8 @@ import { SMAIndicator } from "./sma";
 
 export class BollingerBandsIndicator implements TechnicalIndicator {
   name = "BB";
+  description = "A volatility indicator consisting of a moving average and two standard deviation bands.";
+  formula = "\\text{Upper Band} = SMA_n + k \\cdot \\sigma, \\text{Lower Band} = SMA_n - k \\cdot \\sigma where \\sigma is the standard deviation of the closing prices over the last n days, k is typically set to 2.";
   defaultConfig: IndicatorConfig = {
     period: 20,
     stdDev: 2,

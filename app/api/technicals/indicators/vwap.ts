@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class VWAPIndicator implements TechnicalIndicator {
   name = "VWAP";
+  description = "A measure of the average price weighted by volume.";
+  formula = "VWAP = \\frac{\\sum (V_t \\times P_t)}{\\sum V_t} where P_t = \\frac{H_t + L_t + C_t}{3} is the typical price.";
   defaultConfig: IndicatorConfig = {};
 
   calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {

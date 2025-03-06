@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class CMFIndicator implements TechnicalIndicator {
   name = "CMF";
+  description = "Measures buying and selling pressure.";
+  formula = "CMF = \\frac{\\sum_{i=0}^{n-1} (MFV_i \\times V_i)}{\\sum_{i=0}^{n-1} V_i} where MFV = \\frac{(C_t - L_t) - (H_t - C_t)}{H_t - L_t} is the money flow multiplier.";
   defaultConfig: IndicatorConfig = {
     period: 20,
   };

@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class WilliamsRIndicator implements TechnicalIndicator {
   name = "WILLIAMS_R";
+  description = "A momentum indicator similar to Stochastic %K.";
+  formula = "\\%R = \\frac{H_n - C_t}{H_n - L_n} \\times (-100). It ranges from -100 to 0.";
   defaultConfig: IndicatorConfig = {
     period: 14,
   };

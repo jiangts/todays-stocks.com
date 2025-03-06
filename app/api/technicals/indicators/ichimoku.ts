@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class IchimokuIndicator implements TechnicalIndicator {
   name = "ICHIMOKU";
+  description = "Used to determine support, resistance, and momentum.";
+  formula = "Tenkan-sen (Conversion Line): \\frac{H_9 + L_9}{2}, Kijun-sen (Base Line): \\frac{H_{26} + L_{26}}{2}, Senkou Span A: \\frac{\\text{Tenkan-sen} + \\text{Kijun-sen}}{2}, \\text{shifted forward 26 periods}, Senkou Span B: \\frac{H_{52} + L_{52}}{2}, \\text{shifted forward 26 periods}, Chikou Span (Lagging Span): C_t \\text{ plotted 26 periods back}.";
   defaultConfig: IndicatorConfig = {
     tenkanPeriod: 9,
     kijunPeriod: 26,

@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class OBVIndicator implements TechnicalIndicator {
   name = "OBV";
+  description = "A volume-based indicator to detect accumulation or distribution.";
+  formula = "OBV_t = \\begin{cases} OBV_{t-1} + V_t, & \\text{if } C_t > C_{t-1} \\\\ OBV_{t-1} - V_t, & \\text{if } C_t < C_{t-1} \\\\ OBV_{t-1}, & \\text{if } C_t = C_{t-1} \\end{cases} where V_t is the trading volume.";
   defaultConfig: IndicatorConfig = {};
 
   calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {

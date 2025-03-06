@@ -2,6 +2,8 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 
 export class SMAIndicator implements TechnicalIndicator {
   name = "SMA";
+  description = "A moving average smooths price data to identify trends over time.";
+  formula = "SMA_n = \\frac{1}{n} \\sum_{i=0}^{n-1} C_i where SMA_n is the simple moving average over n periods, C_i is the closing price at day i.";
   defaultConfig: IndicatorConfig = { period: 14 };
 
   calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {
