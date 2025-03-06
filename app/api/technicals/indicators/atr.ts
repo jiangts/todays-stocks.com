@@ -1,8 +1,8 @@
-import { Quote, TechnicalIndicator, IndicatorConfig } from '../types';
-import { TRIndicator } from './tr';
+import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
+import { TRIndicator } from "./tr";
 
 export class ATRIndicator implements TechnicalIndicator {
-  name = 'ATR';
+  name = "ATR";
   defaultConfig: IndicatorConfig = { period: 14 };
   private trIndicator: TRIndicator;
 

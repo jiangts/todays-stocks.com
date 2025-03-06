@@ -1,6 +1,10 @@
-import { TechnicalIndicator } from '../types';
-import { ATRIndicator } from './atr';
-import { TRIndicator } from './tr';
+import { TechnicalIndicator } from "../types";
+import { ATRIndicator } from "./atr";
+import { TRIndicator } from "./tr";
+import { SMAIndicator } from "./sma";
+import { EMAIndicator } from "./ema";
+import { RSIIndicator } from "./rsi";
+import { MACDIndicator } from "./macd";
 
 export class IndicatorRegistry {
   private static instance: IndicatorRegistry;
@@ -14,7 +18,10 @@ export class IndicatorRegistry {
   private registerDefaultIndicators() {
     this.register(new ATRIndicator());
     this.register(new TRIndicator());
-    // Add more indicators here as they are implemented
+    this.register(new SMAIndicator());
+    this.register(new EMAIndicator());
+    this.register(new RSIIndicator());
+    this.register(new MACDIndicator());
   }
 
   public static getInstance(): IndicatorRegistry {

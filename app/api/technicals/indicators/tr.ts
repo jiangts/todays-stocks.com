@@ -1,7 +1,7 @@
-import { Quote, TechnicalIndicator } from '../types';
+import { Quote, TechnicalIndicator } from "../types";
 
 export class TRIndicator implements TechnicalIndicator {
-  name = 'TR';
+  name = "TR";
 
   calculate(data: Quote[]): (number | null)[] {
     if (data.length < 2) {

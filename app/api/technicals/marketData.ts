@@ -1,5 +1,5 @@
 import yahooFinance from "yahoo-finance2";
-import { Quote } from './types';
+import { Quote } from "./types";
 
 export function getEastCoastDate(delta: number = 0): string {
   const now = new Date();
@@ -13,7 +13,7 @@ export function getEastCoastDate(delta: number = 0): string {
 export async function fetchMarketData(
   symbol: string,
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<Quote[]> {
   const queryOptions = {
     period1: startDate,

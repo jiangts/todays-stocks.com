@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import { IndicatorRegistry } from "@/app/api/technicals/indicators/registry";
-import { fetchMarketData, getEastCoastDate } from "@/app/api/technicals/marketData";
-import { TechnicalRequest, IndicatorResult, IndicatorConfig } from "@/app/api/technicals/types";
+import {
+  fetchMarketData,
+  getEastCoastDate,
+} from "@/app/api/technicals/marketData";
+import {
+  TechnicalRequest,
+  IndicatorResult,
+  IndicatorConfig,
+} from "@/app/api/technicals/types";
 
 export async function GET(request: Request) {
   try {
@@ -15,8 +22,8 @@ export async function GET(request: Request) {
     // Parse indicator configs from query params
     // Format: indicatorName.paramName=value
     Array.from(searchParams.entries()).forEach(([key, value]) => {
-      if (key.includes('.')) {
-        const [indicatorName, paramName] = key.split('.');
+      if (key.includes(".")) {
+        const [indicatorName, paramName] = key.split(".");
         if (!indicatorConfigs[indicatorName]) {
           indicatorConfigs[indicatorName] = {};
         }
@@ -49,10 +56,13 @@ export async function GET(request: Request) {
       };
 
       // Calculate each requested indicator
-      indicators.forEach(indicatorName => {
+      indicators.forEach((indicatorName) => {
         const indicator = registry.getIndicator(indicatorName);
         if (indicator) {
-          const values = indicator.calculate(marketData, indicatorConfigs[indicatorName]);
+          const values = indicator.calculate(
+            marketData,
+            indicatorConfigs[indicatorName],
+          );
           result[indicatorName] = values[index];
         }
       });
