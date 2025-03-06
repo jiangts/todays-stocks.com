@@ -75,11 +75,11 @@ export class StochasticIndicator implements TechnicalIndicator {
         volume: 0,
       })),
       { period: dPeriod },
-    );
+    ).sma;
 
     return {
-      kValues,
-      dValues,
+      k: kValues,
+      d: dValues,
     };
   }
 }
