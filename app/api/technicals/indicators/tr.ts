@@ -1,0 +1,23 @@
+import { Quote, TechnicalIndicator } from '../types';
+
+export class TRIndicator implements TechnicalIndicator {
+  name = 'TR';
+
+  calculate(data: Quote[]): (number | null)[] {
+    if (data.length < 2) {
+      throw new Error("Not enough data to calculate TR.");
+    }
+
+    // Compute TR
+    return data.map((day: Quote, i: number) => {
+      if (i === 0) return null; // Skip first row since there is no previous close
+
+      const prevClose = data[i - 1].close;
+      const highLow = day.high - day.low;
+      const highPrevClose = Math.abs(day.high - prevClose);
+      const lowPrevClose = Math.abs(day.low - prevClose);
+
+      return Math.max(highLow, highPrevClose, lowPrevClose);
+    });
+  }
+}
