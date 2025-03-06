@@ -47,6 +47,7 @@
     "resend": "^4.0.1",
     "stripe": "^13.11.0",
     "swr": "^2.3.2",
+    "yahoo-finance2": "^2.13.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
