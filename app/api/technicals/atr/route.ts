@@ -10,11 +10,11 @@ interface Quote {
   volume: number;
 }
 
-function getTodayEasternDate(delta: number = -30): string {
+function getEastCoastDate(delta: number = 0): string {
   const now = new Date();
-  const thirtyDaysAgo = new Date(now.setDate(now.getDate() + delta));
+  const day = new Date(now.setDate(now.getDate() + delta));
   const easternTime = new Date(
-    thirtyDaysAgo.toLocaleString("en-US", { timeZone: "America/New_York" }),
+    day.toLocaleString("en-US", { timeZone: "America/New_York" }),
   );
   return easternTime.toISOString().split("T")[0];
 }
@@ -22,10 +22,12 @@ function getTodayEasternDate(delta: number = -30): string {
 async function computeATR(
   symbol: string,
   startDate: string,
-  period: number = 14,
+  endDate: string,
+  period: number = 14, // atr period
 ) {
   const queryOptions = {
     period1: startDate,
+    period2: endDate,
     interval: "1d" as const,
     return: "object" as const,
   };
@@ -90,7 +92,8 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const symbol = searchParams.get("symbol");
-    const startDate = searchParams.get("startDate") || getTodayEasternDate();
+    const startDate = searchParams.get("startDate") || getEastCoastDate(-30);
+    const endDate = searchParams.get("endDate") || getEastCoastDate(0);
     const period = parseInt(searchParams.get("period") || "14");
 
     if (!symbol) {
@@ -108,7 +111,7 @@ export async function GET(request: Request) {
       "and period:",
       period,
     );
-    const result = await computeATR(symbol, startDate, period);
+    const result = await computeATR(symbol, startDate, endDate, period);
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
