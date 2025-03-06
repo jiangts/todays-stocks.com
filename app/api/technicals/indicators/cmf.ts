@@ -3,12 +3,16 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 export class CMFIndicator implements TechnicalIndicator {
   name = "CMF";
   description = "Measures buying and selling pressure.";
-  formula = "CMF = \\frac{\\sum_{i=0}^{n-1} (MFV_i \\times V_i)}{\\sum_{i=0}^{n-1} V_i} where MFV = \\frac{(C_t - L_t) - (H_t - C_t)}{H_t - L_t} is the money flow multiplier.";
+  formula =
+    "CMF = \\frac{\\sum_{i=0}^{n-1} (MFV_i \\times V_i)}{\\sum_{i=0}^{n-1} V_i} where MFV = \\frac{(C_t - L_t) - (H_t - C_t)}{H_t - L_t} is the money flow multiplier.";
   defaultConfig: IndicatorConfig = {
     period: 20,
   };
 
-  calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {
+  calculate(
+    data: Quote[],
+    config?: IndicatorConfig,
+  ): Record<string, (number | null)[]> {
     const period = Number(config?.period || this.defaultConfig.period);
 
     if (data.length < period) {
@@ -27,7 +31,7 @@ export class CMFIndicator implements TechnicalIndicator {
     const mfv = mfm.map((multiplier, i) => multiplier * data[i].volume);
 
     // Calculate CMF using period
-    return data.map((_, i, arr) => {
+    const cmfValues = data.map((_, i, arr) => {
       if (i < period - 1) return null;
 
       const periodMFV = mfv.slice(i - period + 1, i + 1);
@@ -40,5 +44,9 @@ export class CMFIndicator implements TechnicalIndicator {
 
       return sumVolume === 0 ? 0 : sumMFV / sumVolume;
     });
+
+    return {
+      cmf: cmfValues,
+    };
   }
 }

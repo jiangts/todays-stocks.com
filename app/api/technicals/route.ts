@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { NextResponse } from "next/server";
 import { IndicatorRegistry } from "@/app/api/technicals/indicators/registry";
 import {
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const symbol = searchParams.get("symbol");
-    const startDate = searchParams.get("startDate") || getEastCoastDate(-30);
+    const startDate = searchParams.get("startDate") || getEastCoastDate(-90);
     const endDate = searchParams.get("endDate") || getEastCoastDate(0);
     const indicators = searchParams.get("indicators")?.split(",") || [];
     const indicatorConfigs: { [key: string]: IndicatorConfig } = {};
@@ -63,7 +64,11 @@ export async function GET(request: Request) {
             marketData,
             indicatorConfigs[indicatorName],
           );
-          result[indicatorName] = values[index];
+          // Handle each value in the record
+          Object.entries(values).forEach(([key, valueArray]) => {
+            const fullKey = `${indicatorName}.${key}`;
+            _.set(result, fullKey, valueArray[index]);
+          });
         }
       });
 

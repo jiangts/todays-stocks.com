@@ -3,10 +3,14 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 export class RSIIndicator implements TechnicalIndicator {
   name = "RSI";
   description = "Measures the strength of price momentum.";
-  formula = "RSI = 100 - \\frac{100}{1 + RS} where RS = \\frac{\\text{Average Gain over } n \\text{ periods}}{\\text{Average Loss over } n \\text{ periods}}. Gains and losses are based on differences between successive closing prices. A common choice for n is 14 days.";
+  formula =
+    "RSI = 100 - \\frac{100}{1 + RS} where RS = \\frac{\\text{Average Gain over } n \\text{ periods}}{\\text{Average Loss over } n \\text{ periods}}. Gains and losses are based on differences between successive closing prices. A common choice for n is 14 days.";
   defaultConfig: IndicatorConfig = { period: 14 };
 
-  calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {
+  calculate(
+    data: Quote[],
+    config?: IndicatorConfig,
+  ): Record<string, (number | null)[]> {
     const period = Number(config?.period || this.defaultConfig.period);
 
     if (data.length < period + 1) {
@@ -52,12 +56,16 @@ export class RSIIndicator implements TechnicalIndicator {
     }
 
     // Calculate RS and RSI
-    return avgGains.map((avgGain, i) => {
+    const rsiValues = avgGains.map((avgGain, i) => {
       if (avgGain === null) return null;
       const avgLoss = avgLosses[i];
       if (avgLoss === 0) return 100;
       const rs = avgGain / avgLoss;
       return 100 - 100 / (1 + rs);
     });
+
+    return {
+      rsi: rsiValues,
+    };
   }
 }

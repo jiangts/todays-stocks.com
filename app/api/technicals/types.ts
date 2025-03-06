@@ -15,7 +15,10 @@ export interface TechnicalIndicator {
   name: string;
   description: string;
   formula: string;
-  calculate: (data: Quote[], config?: IndicatorConfig) => (number | null)[];
+  calculate: (
+    data: Quote[],
+    config?: IndicatorConfig,
+  ) => Record<string, (number | null)[]>;
   defaultConfig?: IndicatorConfig;
 }
 

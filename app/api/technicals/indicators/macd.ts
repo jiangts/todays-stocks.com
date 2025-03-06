@@ -3,8 +3,10 @@ import { EMAIndicator } from "./ema";
 
 export class MACDIndicator implements TechnicalIndicator {
   name = "MACD";
-  description = "Shows the relationship between two moving averages of closing prices.";
-  formula = "MACD = EMA_{12} - EMA_{26}. A \\text{signal line} is typically computed as \\text{Signal Line} = EMA_9(MACD).";
+  description =
+    "Shows the relationship between two moving averages of closing prices.";
+  formula =
+    "MACD = EMA_{12} - EMA_{26}. A \\text{signal line} is typically computed as \\text{Signal Line} = EMA_9(MACD).";
   defaultConfig: IndicatorConfig = {
     fastPeriod: 12,
     slowPeriod: 26,
@@ -17,7 +19,10 @@ export class MACDIndicator implements TechnicalIndicator {
     this.emaIndicator = new EMAIndicator();
   }
 
-  calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {
+  calculate(
+    data: Quote[],
+    config?: IndicatorConfig,
+  ): Record<string, (number | null)[]> {
     const fastPeriod = Number(
       config?.fastPeriod || this.defaultConfig.fastPeriod,
     );
@@ -33,18 +38,24 @@ export class MACDIndicator implements TechnicalIndicator {
     }
 
     // Calculate fast and slow EMAs
-    const fastEMA = this.emaIndicator.calculate(data, { period: fastPeriod });
-    const slowEMA = this.emaIndicator.calculate(data, { period: slowPeriod });
+    const fastEMAResult = this.emaIndicator.calculate(data, {
+      period: fastPeriod,
+    });
+    const slowEMAResult = this.emaIndicator.calculate(data, {
+      period: slowPeriod,
+    });
+    const fastEMA = fastEMAResult.ema;
+    const slowEMA = slowEMAResult.ema;
 
     // Calculate MACD line (fast EMA - slow EMA)
-    const macdLine = fastEMA.map((fast, i) => {
+    const macdLine = fastEMA.map((fast: number | null, i: number) => {
       if (fast === null || slowEMA[i] === null) return null;
       return fast - slowEMA[i];
     });
 
     // Calculate signal line (EMA of MACD line)
-    const signalLine = this.emaIndicator.calculate(
-      macdLine.map((value, i) => ({
+    const signalLineResult = this.emaIndicator.calculate(
+      macdLine.map((value: number | null, i: number) => ({
         date: data[i].date,
         open: value || 0,
         high: value || 0,
@@ -54,11 +65,18 @@ export class MACDIndicator implements TechnicalIndicator {
       })),
       { period: signalPeriod },
     );
+    const signalLine = signalLineResult.ema;
 
     // Calculate MACD histogram (MACD line - signal line)
-    return macdLine.map((macd, i) => {
+    const histogram = macdLine.map((macd: number | null, i: number) => {
       if (macd === null || signalLine[i] === null) return null;
       return macd - signalLine[i];
     });
+
+    return {
+      macdLine,
+      signalLine,
+      histogram,
+    };
   }
 }

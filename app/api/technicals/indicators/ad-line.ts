@@ -3,21 +3,25 @@ import { Quote, TechnicalIndicator, IndicatorConfig } from "../types";
 export class ADLineIndicator implements TechnicalIndicator {
   name = "AD_LINE";
   description = "Tracks supply and demand.";
-  formula = "A/D = A/D_{t-1} + \\left( \\frac{(C_t - L_t) - (H_t - C_t)}{H_t - L_t} \\right) \\times V_t.";
+  formula =
+    "A/D = A/D_{t-1} + \\left( \\frac{(C_t - L_t) - (H_t - C_t)}{H_t - L_t} \\right) \\times V_t.";
   defaultConfig: IndicatorConfig = {};
 
-  calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {
+  calculate(
+    data: Quote[],
+    config?: IndicatorConfig,
+  ): Record<string, (number | null)[]> {
     if (data.length < 1) {
       throw new Error("Not enough data to calculate A/D Line.");
     }
 
-    const result: (number | null)[] = [];
+    const adLineValues: (number | null)[] = [];
     let adLine = 0;
 
     data.forEach((quote) => {
       const highLowRange = quote.high - quote.low;
       if (highLowRange === 0) {
-        result.push(adLine);
+        adLineValues.push(adLine);
         return;
       }
 
@@ -26,9 +30,11 @@ export class ADLineIndicator implements TechnicalIndicator {
       const moneyFlowVolume = moneyFlowMultiplier * quote.volume;
       adLine += moneyFlowVolume;
 
-      result.push(adLine);
+      adLineValues.push(adLine);
     });
 
-    return result;
+    return {
+      adLine: adLineValues,
+    };
   }
 }

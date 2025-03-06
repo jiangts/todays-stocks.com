@@ -5,13 +5,13 @@ export class TRIndicator implements TechnicalIndicator {
   description = "True Range";
   formula = "TR = max(H_t - L_t, |H_t - C_{t-1}|, |L_t - C_{t-1}|)";
 
-  calculate(data: Quote[]): (number | null)[] {
+  calculate(data: Quote[]): Record<string, (number | null)[]> {
     if (data.length < 2) {
       throw new Error("Not enough data to calculate TR.");
     }
 
     // Compute TR
-    return data.map((day: Quote, i: number) => {
+    const trValues = data.map((day: Quote, i: number) => {
       if (i === 0) return null; // Skip first row since there is no previous close
 
       const prevClose = data[i - 1].close;
@@ -21,5 +21,9 @@ export class TRIndicator implements TechnicalIndicator {
 
       return Math.max(highLow, highPrevClose, lowPrevClose);
     });
+
+    return {
+      tr: trValues,
+    };
   }
 }

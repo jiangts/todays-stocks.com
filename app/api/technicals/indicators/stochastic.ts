@@ -4,7 +4,8 @@ import { SMAIndicator } from "./sma";
 export class StochasticIndicator implements TechnicalIndicator {
   name = "STOCHASTIC";
   description = "Measures momentum relative to recent highs and lows.";
-  formula = "\\%K = \\frac{C_t - L_n}{H_n - L_n} \\times 100 where H_n and L_n are the highest and lowest prices in the last n periods, C_t is the most recent closing price. The smoothed version is \\%D = SMA_3(\\%K) where %D is a 3-day moving average of %K.";
+  formula =
+    "\\%K = \\frac{C_t - L_n}{H_n - L_n} \\times 100 where H_n and L_n are the highest and lowest prices in the last n periods, C_t is the most recent closing price. The smoothed version is \\%D = SMA_3(\\%K) where %D is a 3-day moving average of %K.";
   defaultConfig: IndicatorConfig = {
     kPeriod: 14,
     dPeriod: 3,
@@ -17,7 +18,10 @@ export class StochasticIndicator implements TechnicalIndicator {
     this.smaIndicator = new SMAIndicator();
   }
 
-  calculate(data: Quote[], config?: IndicatorConfig): (number | null)[] {
+  calculate(
+    data: Quote[],
+    config?: IndicatorConfig,
+  ): Record<string, (number | null)[]> {
     const kPeriod = Number(config?.kPeriod || this.defaultConfig.kPeriod);
     const dPeriod = Number(config?.dPeriod || this.defaultConfig.dPeriod);
     const slowingPeriod = Number(
@@ -73,7 +77,9 @@ export class StochasticIndicator implements TechnicalIndicator {
       { period: dPeriod },
     );
 
-    // Return %K values (we'll need to modify the interface to return both %K and %D)
-    return kValues;
+    return {
+      kValues,
+      dValues,
+    };
   }
 }

@@ -28,6 +28,7 @@
     "form-data": "^4.0.0",
     "html-to-text": "^9.0.5",
     "isomorphic-dompurify": "^2.22.0",
+    "lodash": "^4.17.21",
     "marked": "^15.0.7",
     "mongodb": "^5.9.2",
     "mongoose": "^7.6.10",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
     "@types/jest": "^29.5.12",
+    "@types/lodash": "^4.17.16",
     "@types/mdx": "^2.0.12",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^20.12.2",
