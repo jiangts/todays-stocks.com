@@ -37,3 +37,81 @@ export async function fetchMarketData(
     volume: result.indicators.quote[0].volume[index],
   }));
 }
+
+export async function fetchDailyGainers(
+  count: number = 25,
+  lang: string = "en-US",
+  region: string = "US",
+) {
+  const losers = await yahooFinance.dailyGainers({ count, lang, region });
+  return losers;
+}
+
+export async function fetchInsights(
+  symbol: string,
+  reportsCount: number = 5,
+  lang: string = "en-US",
+  region: string = "US",
+) {
+  const losers = await yahooFinance.insights(symbol, {
+    reportsCount,
+    lang,
+    region,
+  });
+  return losers;
+}
+
+export type ScrId =
+  | "aggressive_small_caps"
+  | "conservative_foreign_funds"
+  | "day_gainers"
+  | "day_losers"
+  | "growth_technology_stocks"
+  | "high_yield_bond"
+  | "most_actives"
+  | "most_shorted_stocks"
+  | "portfolio_anchors"
+  | "small_cap_gainers"
+  | "solid_large_growth_funds"
+  | "solid_midcap_growth_funds"
+  | "top_mutual_funds"
+  | "undervalued_growth_stocks"
+  | "undervalued_large_caps";
+
+export async function fetchScreen(
+  scrIds: ScrId,
+  count: number = 5,
+  lang: string = "en-US",
+  region: string = "US",
+) {
+  const result = await yahooFinance.screener({ scrIds, count, lang, region });
+  return result;
+}
+
+export type ReportingPeriodType = "quarterly" | "annual" | "trailing";
+
+export type FinancialModule =
+  | "financials"
+  | "balance-sheet"
+  | "cash-flow"
+  | "all";
+
+export async function fetchFundamentals(
+  symbol: string,
+  period1: Date,
+  period2: Date = new Date(),
+  type: ReportingPeriodType = "quarterly",
+  module: FinancialModule = "financials",
+  lang: string = "en-US",
+  region: string = "US",
+) {
+  const result = await yahooFinance.fundamentalsTimeSeries(symbol, {
+    period1,
+    period2,
+    type,
+    module,
+    lang,
+    region,
+  });
+  return result;
+}
