@@ -10,16 +10,28 @@ export function getEastCoastDate(delta: number = 0): string {
   return easternTime.toISOString().split("T")[0];
 }
 
+type DateInput = Date | string | number;
+
+type IntervalPeriod =
+  | "1m" | "2m" | "5m" | "15m" | "30m"
+  | "60m" | "90m" | "1h" | "1d" | "5d"
+  | "1wk" | "1mo" | "3mo";
+
 export async function fetchMarketData(
   symbol: string,
-  startDate: string,
-  endDate: string,
+  period1: DateInput,
+  period2: DateInput = new Date(),
+  interval: IntervalPeriod = "1d",
+  events: string = "div|split|earn",
+  lang: string = "en-US",
 ): Promise<Quote[]> {
   const queryOptions = {
-    period1: startDate,
-    period2: endDate,
-    interval: "1d" as const,
+    period1: period1,
+    period2: period2,
+    interval,
     return: "object" as const,
+    events,
+    lang,
   };
 
   const result = await yahooFinance.chart(symbol, queryOptions);
@@ -112,6 +124,73 @@ export async function fetchFundamentals(
     module,
     lang,
     region,
+  });
+  return result;
+}
+
+export async function fetchOptions(
+  symbol: string,
+  formatted: boolean = true,
+  lang: string = "en-US",
+  region: string = "US",
+  date: Date = new Date(),
+) {
+  const result = await yahooFinance.options(symbol, {
+    formatted,
+    lang,
+    region,
+    date,
+  });
+  return result;
+}
+
+export async function fetchQuote(symbol: string) {
+  const result = await yahooFinance.quote(symbol);
+  return result;
+}
+
+type QuoteSummaryModule =
+  | "assetProfile"
+  | "balanceSheetHistory"
+  | "balanceSheetHistoryQuarterly"
+  | "calendarEvents"
+  | "cashflowStatementHistory"
+  | "cashflowStatementHistoryQuarterly"
+  | "defaultKeyStatistics"
+  | "earnings"
+  | "earningsHistory"
+  | "earningsTrend"
+  | "financialData"
+  | "fundOwnership"
+  | "fundPerformance"
+  | "fundProfile"
+  | "incomeStatementHistory"
+  | "incomeStatementHistoryQuarterly"
+  | "indexTrend"
+  | "industryTrend"
+  | "insiderHolders"
+  | "insiderTransactions"
+  | "institutionOwnership"
+  | "majorDirectHolders"
+  | "majorHoldersBreakdown"
+  | "netSharePurchaseActivity"
+  | "price"
+  | "quoteType"
+  | "recommendationTrend"
+  | "secFilings"
+  | "sectorTrend"
+  | "summaryDetail"
+  | "summaryProfile"
+  | "symbol"
+  | "topHoldings"
+  | "upgradeDowngradeHistory";
+
+export async function fetchQuoteSummary(
+  symbol: string,
+  modules: QuoteSummaryModule[] = ["assetProfile", "defaultKeyStatistics"],
+) {
+  const result = await yahooFinance.quoteSummary(symbol, {
+    modules: modules as any,
   });
   return result;
 }
