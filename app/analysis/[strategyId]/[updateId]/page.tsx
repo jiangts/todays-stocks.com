@@ -6,8 +6,8 @@ import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 import { Icon } from "@mdi/react";
 import { mdiMenu, mdiStar } from "@mdi/js";
-import Clarity from "@microsoft/clarity";
 import { useSession } from "next-auth/react";
+import Clarity from "@/libs/clarity";
 
 interface StockData {
   Symbol: string;
