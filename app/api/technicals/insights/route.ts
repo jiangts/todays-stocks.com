@@ -5,7 +5,9 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const symbol = searchParams.get("symbol");
-    const reportsCount = searchParams.get("reportsCount") ? parseInt(searchParams.get("reportsCount")!) : 5;
+    const reportsCount = searchParams.get("reportsCount")
+      ? parseInt(searchParams.get("reportsCount")!)
+      : 5;
     const lang = searchParams.get("lang") || "en-US";
     const region = searchParams.get("region") || "US";
 

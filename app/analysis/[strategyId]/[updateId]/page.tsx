@@ -6,6 +6,8 @@ import { marked } from "marked";
 import DOMPurify from "isomorphic-dompurify";
 import { Icon } from "@mdi/react";
 import { mdiMenu, mdiStar } from "@mdi/js";
+import Clarity from "@microsoft/clarity";
+import { useSession } from "next-auth/react";
 
 interface StockData {
   Symbol: string;
@@ -37,6 +39,11 @@ export default function AnalysisPage({
   const [picks, setPicks] = useState<string>(null);
   const [loading, setLoading] = useState(true);
   const pathname = usePathname();
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    Clarity.identify(session?.user?.email);
+  }, [session, pathname]);
 
   useEffect(() => {
     const fetchData = async () => {

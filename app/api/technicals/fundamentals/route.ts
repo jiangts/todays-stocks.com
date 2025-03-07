@@ -1,5 +1,10 @@
 import { NextResponse } from "next/server";
-import { fetchFundamentals, ReportingPeriodType, FinancialModule, getEastCoastDate } from "@/app/api/technicals/marketData";
+import {
+  fetchFundamentals,
+  ReportingPeriodType,
+  FinancialModule,
+  getEastCoastDate,
+} from "@/app/api/technicals/marketData";
 
 export async function GET(request: Request) {
   try {
@@ -7,8 +12,10 @@ export async function GET(request: Request) {
     const symbol = searchParams.get("symbol");
     const period1Str = searchParams.get("period1") || getEastCoastDate(-365);
     const period2Str = searchParams.get("period2") || getEastCoastDate(0);
-    const type = (searchParams.get("type") || "quarterly") as ReportingPeriodType;
-    const _module = (searchParams.get("module") || "financials") as FinancialModule;
+    const type = (searchParams.get("type") ||
+      "quarterly") as ReportingPeriodType;
+    const _module = (searchParams.get("module") ||
+      "financials") as FinancialModule;
     const lang = searchParams.get("lang") || "en-US";
     const region = searchParams.get("region") || "US";
 
@@ -40,7 +47,15 @@ export async function GET(request: Request) {
     const period1 = new Date(period1Str);
     const period2 = new Date(period2Str);
 
-    const fundamentals = await fetchFundamentals(symbol, period1, period2, type, _module, lang, region);
+    const fundamentals = await fetchFundamentals(
+      symbol,
+      period1,
+      period2,
+      type,
+      _module,
+      lang,
+      region,
+    );
 
     return NextResponse.json(fundamentals);
   } catch (error) {

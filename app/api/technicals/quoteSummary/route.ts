@@ -15,29 +15,58 @@ export async function GET(request: Request) {
     }
 
     // Parse modules parameter
-    const modules = modulesParam ? modulesParam.split(",") : ["assetProfile", "defaultKeyStatistics"];
+    const modules = modulesParam
+      ? modulesParam.split(",")
+      : ["assetProfile", "defaultKeyStatistics"];
 
     // Validate modules
     const validModules = [
-      "assetProfile", "balanceSheetHistory", "balanceSheetHistoryQuarterly",
-      "calendarEvents", "cashflowStatementHistory", "cashflowStatementHistoryQuarterly",
-      "defaultKeyStatistics", "earnings", "earningsHistory", "earningsTrend",
-      "financialData", "fundOwnership", "fundPerformance", "fundProfile",
-      "incomeStatementHistory", "incomeStatementHistoryQuarterly", "indexTrend",
-      "industryTrend", "insiderHolders", "insiderTransactions", "institutionOwnership",
-      "majorDirectHolders", "majorHoldersBreakdown", "netSharePurchaseActivity",
-      "price", "quoteType", "recommendationTrend", "secFilings", "sectorTrend",
-      "summaryDetail", "summaryProfile", "symbol", "topHoldings", "upgradeDowngradeHistory"
+      "assetProfile",
+      "balanceSheetHistory",
+      "balanceSheetHistoryQuarterly",
+      "calendarEvents",
+      "cashflowStatementHistory",
+      "cashflowStatementHistoryQuarterly",
+      "defaultKeyStatistics",
+      "earnings",
+      "earningsHistory",
+      "earningsTrend",
+      "financialData",
+      "fundOwnership",
+      "fundPerformance",
+      "fundProfile",
+      "incomeStatementHistory",
+      "incomeStatementHistoryQuarterly",
+      "indexTrend",
+      "industryTrend",
+      "insiderHolders",
+      "insiderTransactions",
+      "institutionOwnership",
+      "majorDirectHolders",
+      "majorHoldersBreakdown",
+      "netSharePurchaseActivity",
+      "price",
+      "quoteType",
+      "recommendationTrend",
+      "secFilings",
+      "sectorTrend",
+      "summaryDetail",
+      "summaryProfile",
+      "symbol",
+      "topHoldings",
+      "upgradeDowngradeHistory",
     ];
 
     // Check if all requested modules are valid
-    const invalidModules = modules.filter(module => !validModules.includes(module));
+    const invalidModules = modules.filter(
+      (module) => !validModules.includes(module),
+    );
     if (invalidModules.length > 0) {
       return NextResponse.json(
         {
           error: "Invalid module(s) requested",
           invalidModules,
-          validOptions: validModules
+          validOptions: validModules,
         },
         { status: 400 },
       );
