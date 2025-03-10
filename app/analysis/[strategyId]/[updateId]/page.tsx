@@ -168,7 +168,7 @@ export default function AnalysisPage({
                   AI Stock Picks
                 </h2>
                 <div
-                  className="prose dark:prose-invert max-w-none prose-headings:text-gray-800 dark:prose-headings:text-gray-200 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-gray-900 dark:prose-strong:text-gray-100"
+                  className="prose dark:prose-invert max-w-none prose-headings:text-gray-800 dark:prose-headings:text-gray-200 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-strong:text-gray-900 dark:prose-strong:text-gray-200 dark:prose-li:text-gray-200 dark:marker:text-gray-200"
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(
                       marked(picks, { breaks: true }) as string,
@@ -290,7 +290,7 @@ export default function AnalysisPage({
                     </div>
                     <div className="collapse-content">
                       <div
-                        className="text-gray-700 dark:text-gray-300 prose"
+                        className="text-gray-700 dark:text-gray-300 prose dark:prose-strong:text-gray-200 dark:marker:text-gray-200"
                         dangerouslySetInnerHTML={{
                           __html: DOMPurify.sanitize(
                             marked(stock.reasoning, { breaks: true }) as string,
